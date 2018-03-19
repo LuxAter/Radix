@@ -1,7 +1,7 @@
 SHELL = /bin/bash
 
 export NAME= radix
-export LINK= 
+export LINK= -lmpfr -lgmp
 export INCLUDE=
 export TYPE= TYPE(lib/exe)
 
@@ -19,8 +19,8 @@ export CXXFLAGS= -MMD -std=c++17 -w -c
 
 export INSTALL_PATH=/usr/local
 
-export GCOV_LINK = --coverage
-export GCOV_FLAG = -fprofile-arcs -ftest-coverage
+# export GCOV_LINK = --coverage
+# export GCOV_FLAG = -fprofile-arcs -ftest-coverage
 
 export COMMON_INCLUDE=-I$(BASE_PATH)/$(INCLUDE_DIR) $(INCLUDE)
 
