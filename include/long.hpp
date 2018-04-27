@@ -37,6 +37,17 @@ class Long {
   Long(long double val);
   Long(std::string val);
   Long(const char* val);
+  Long(int val, std::size_t prec);
+  Long(long int val, std::size_t prec);
+  Long(long long int val, std::size_t prec);
+  Long(unsigned int val, std::size_t prec);
+  Long(unsigned long int val, std::size_t prec);
+  Long(unsigned long long int val, std::size_t prec);
+  Long(float val, std::size_t prec);
+  Long(double val, std::size_t prec);
+  Long(long double val, std::size_t prec);
+  Long(std::string val, std::size_t prec);
+  Long(const char* val, std::size_t prec);
 
   Long(const Long& copy);
 
