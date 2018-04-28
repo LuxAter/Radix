@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include "equation_base.hpp"
+#include "../equation_base.hpp"
 
 namespace radix {
 class Equation : public EquationBase {

@@ -1,107 +1,109 @@
-#include "long.hpp"
+#include "value/long.hpp"
 
-// #include <cstdio>
 #include <mpfr.h>
 #include <stdio.h>
 #include <cstring>
 
 #include <ostream>
 #include <string>
+#include <memory>
 
-radix::Long::Long() {
+#include "value/value.hpp"
+
+radix::Long::Long() : Value(INT) {
   SetPrecision(sizeof(int) * 8);
   mpfr_set_si(value_, 0.0, MPFR_RNDD);
 }
-radix::Long::Long(int val) {
+radix::Long::Long(int val) : Value(INT) {
   SetPrecision(sizeof(int) * 8);
   mpfr_set_si(value_, val, MPFR_RNDD);
 }
-radix::Long::Long(long int val) {
+radix::Long::Long(long int val) : Value(INT) {
   SetPrecision(sizeof(long) * 8);
   mpfr_set_si(value_, val, MPFR_RNDD);
 }
-radix::Long::Long(long long int val) {
+radix::Long::Long(long long int val) : Value(INT) {
   SetPrecision(sizeof(long long) * 8);
   mpfr_set_si(value_, val, MPFR_RNDD);
 }
-radix::Long::Long(unsigned int val) {
+radix::Long::Long(unsigned int val) : Value(INT) {
   SetPrecision(sizeof(unsigned) * 8);
   mpfr_set_ui(value_, val, MPFR_RNDD);
 }
-radix::Long::Long(unsigned long int val) {
+radix::Long::Long(unsigned long int val) : Value(INT) {
   SetPrecision(sizeof(unsigned long) * 8);
   mpfr_set_ui(value_, val, MPFR_RNDD);
 }
-radix::Long::Long(unsigned long long int val) {
+radix::Long::Long(unsigned long long int val) : Value(INT) {
   SetPrecision(sizeof(unsigned long long) * 8);
   mpfr_set_ui(value_, val, MPFR_RNDD);
 }
-radix::Long::Long(float val) {
+radix::Long::Long(float val) : Value(INT) {
   SetPrecision(sizeof(float) * 8);
   mpfr_set_flt(value_, val, MPFR_RNDD);
 }
-radix::Long::Long(double val) {
+radix::Long::Long(double val) : Value(INT) {
   SetPrecision(sizeof(float) * 8);
   mpfr_set_d(value_, val, MPFR_RNDD);
 }
-radix::Long::Long(long double val) {
+radix::Long::Long(long double val) : Value(INT) {
   SetPrecision(sizeof(float) * 8);
   mpfr_set_ld(value_, val, MPFR_RNDD);
 }
-radix::Long::Long(std::string val) {
+radix::Long::Long(std::string val) : Value(INT) {
   SetPrecision(val.size() * sizeof(char) * 8);
   mpfr_set_str(value_, val.c_str(), val.size(), MPFR_RNDD);
 }
-radix::Long::Long(const char* val) {
+radix::Long::Long(const char* val) : Value(INT) {
   SetPrecision(std::strlen(val) * sizeof(char) * 8);
   mpfr_set_str(value_, val, 10, MPFR_RNDD);
 }
-radix::Long::Long(int val, std::size_t prec) {
+radix::Long::Long(int val, std::size_t prec) : Value(INT) {
   SetPrecision(prec * 8);
   mpfr_set_si(value_, val, MPFR_RNDD);
 }
-radix::Long::Long(long int val, std::size_t prec) {
+radix::Long::Long(long int val, std::size_t prec) : Value(INT) {
   SetPrecision(prec * 8);
   mpfr_set_si(value_, val, MPFR_RNDD);
 }
-radix::Long::Long(long long int val, std::size_t prec) {
+radix::Long::Long(long long int val, std::size_t prec) : Value(INT) {
   SetPrecision(prec * 8);
   mpfr_set_si(value_, val, MPFR_RNDD);
 }
-radix::Long::Long(unsigned int val, std::size_t prec) {
+radix::Long::Long(unsigned int val, std::size_t prec) : Value(INT) {
   SetPrecision(prec * 8);
   mpfr_set_ui(value_, val, MPFR_RNDD);
 }
-radix::Long::Long(unsigned long int val, std::size_t prec) {
+radix::Long::Long(unsigned long int val, std::size_t prec) : Value(INT) {
   SetPrecision(prec * 8);
   mpfr_set_ui(value_, val, MPFR_RNDD);
 }
-radix::Long::Long(unsigned long long int val, std::size_t prec) {
+radix::Long::Long(unsigned long long int val, std::size_t prec) : Value(INT) {
   SetPrecision(prec * 8);
   mpfr_set_ui(value_, val, MPFR_RNDD);
 }
-radix::Long::Long(float val, std::size_t prec) {
+radix::Long::Long(float val, std::size_t prec) : Value(INT) {
   SetPrecision(prec * 8);
   mpfr_set_flt(value_, val, MPFR_RNDD);
 }
-radix::Long::Long(double val, std::size_t prec) {
+radix::Long::Long(double val, std::size_t prec) : Value(INT) {
   SetPrecision(prec * 8);
   mpfr_set_d(value_, val, MPFR_RNDD);
 }
-radix::Long::Long(long double val, std::size_t prec) {
+radix::Long::Long(long double val, std::size_t prec) : Value(INT) {
   SetPrecision(prec * 8);
   mpfr_set_ld(value_, val, MPFR_RNDD);
 }
-radix::Long::Long(std::string val, std::size_t prec) {
+radix::Long::Long(std::string val, std::size_t prec) : Value(INT) {
   SetPrecision(prec * 8);
   mpfr_set_str(value_, val.c_str(), val.size(), MPFR_RNDD);
 }
-radix::Long::Long(const char* val, std::size_t prec) {
+radix::Long::Long(const char* val, std::size_t prec) : Value(INT) {
   SetPrecision(prec * 8);
   mpfr_set_str(value_, val, 10, MPFR_RNDD);
 }
 
-radix::Long::Long(const Long& copy) {
+radix::Long::Long(const Long& copy) : Value(INT) {
   mpfr_init2(value_, mpfr_get_prec(copy.value_));
   mpfr_set(value_, copy.value_, MPFR_RNDD);
 }
@@ -224,6 +226,10 @@ radix::Long& radix::Long::operator*=(const Long& rhs) {
 radix::Long& radix::Long::operator/=(const Long& rhs) {
   mpfr_div(value_, value_, rhs.value_, MPFR_RNDD);
   return *this;
+}
+
+radix::Long::operator std::shared_ptr<radix::Value>(){
+  return std::dynamic_pointer_cast<radix::Value>(std::make_shared<Long>(*this));
 }
 
 std::ostream& radix::operator<<(std::ostream& out, const Long& lhs) {

@@ -1,10 +1,13 @@
-#ifndef RADIX_LONG_HPP_
-#define RADIX_LONG_HPP_
+#ifndef RADIX_VALUE_LONG_HPP_
+#define RADIX_VALUE_LONG_HPP_
 
 #include <mpfr.h>
 
 #include <ostream>
 #include <string>
+#include <memory>
+
+#include "value.hpp"
 
 namespace radix {
 
@@ -23,7 +26,7 @@ enum RoundingMode {
   RNDF = MPFR_RNDF
 };
 
-class Long {
+class Long : public Value {
  public:
   Long();
   Long(int val);
@@ -90,6 +93,8 @@ class Long {
   Long& operator-=(const Long& rhs);
   Long& operator*=(const Long& rhs);
   Long& operator/=(const Long& rhs);
+
+  operator std::shared_ptr<Value>();
 
   mpfr_t value_;
 
@@ -186,6 +191,8 @@ Long trunc(const Long& arg);
 Long round(const Long& arg);
 Long rint(const Long& arg, const RoundingMode& rnd);
 
+typedef Long Int;
+
 }  // namespace radix
 
-#endif  // RADIX_LONG_HPP_
+#endif  // RADIX_VALUE_LONG_HPP_

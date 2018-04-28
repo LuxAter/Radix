@@ -4,7 +4,8 @@
 namespace radix {
   enum EquationType {
     EQUATION = 0,
-    CONSTANT = 1
+    VALUE = 1,
+    FUNCTION = 2
   };
 
   class EquationBase{

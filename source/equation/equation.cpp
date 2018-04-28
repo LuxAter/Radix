@@ -1,4 +1,4 @@
-#include "equation.hpp"
+#include "equation/equation.hpp"
 #include "equation_base.hpp"
 
 #include <memory>
