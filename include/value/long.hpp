@@ -76,6 +76,8 @@ class Long : public Value {
 
   std::string GetString(int prec = -1, bool left=false) const;
 
+  virtual std::string Latex() const;
+
   Long& operator=(int val);
   Long& operator=(long int val);
   Long& operator=(long long int val);
@@ -95,6 +97,7 @@ class Long : public Value {
   Long& operator/=(const Long& rhs);
 
   operator std::shared_ptr<Value>();
+  operator std::shared_ptr<Expression>();
 
   mpfr_t value_;
 

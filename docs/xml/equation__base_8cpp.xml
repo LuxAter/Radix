@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="equation__base_8cpp" kind="file" language="C++">
+    <compoundname>equation_base.cpp</compoundname>
+    <includes refid="equation__base_8hpp" local="yes">equation_base.hpp</includes>
+    <incdepgraph>
+      <node id="79">
+        <label>string</label>
+      </node>
+      <node id="78">
+        <label>equation_base.hpp</label>
+        <link refid="equation__base_8hpp_source"/>
+        <childnode refid="79" relation="include">
+        </childnode>
+      </node>
+      <node id="77">
+        <label>source/equation_base.cpp</label>
+        <link refid="equation__base_8cpp"/>
+        <childnode refid="78" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;equation_base.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal">radix::EquationBase::EquationBase()<sp/>{}</highlight></codeline>
+<codeline lineno="4"><highlight class="normal">radix::EquationBase::EquationBase(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EquationType&amp;<sp/>type)<sp/>:<sp/>type_(type)<sp/>{}</highlight></codeline>
+<codeline lineno="5"><highlight class="normal">radix::EquationBase::~EquationBase()<sp/>{}</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal">std::string<sp/>radix::EquationBase::Latex()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;EQB&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+    </programlisting>
+    <location file="source/equation_base.cpp"/>
+  </compounddef>
+</doxygen>

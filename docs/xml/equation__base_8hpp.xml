@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="equation__base_8hpp" kind="file" language="C++">
+    <compoundname>equation_base.hpp</compoundname>
+    <includes local="no">string</includes>
+    <includedby refid="equation_8hpp" local="yes">include/equation/equation.hpp</includedby>
+    <includedby refid="function_8hpp" local="yes">include/function/function.hpp</includedby>
+    <includedby refid="value_8hpp" local="yes">include/value/value.hpp</includedby>
+    <includedby refid="equation_8cpp" local="yes">source/equation/equation.cpp</includedby>
+    <includedby refid="equation__base_8cpp" local="yes">source/equation_base.cpp</includedby>
+    <includedby refid="function_8cpp" local="yes">source/function/function.cpp</includedby>
+    <includedby refid="value_8cpp" local="yes">source/value/value.cpp</includedby>
+    <incdepgraph>
+      <node id="11">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>include/equation_base.hpp</label>
+        <link refid="equation__base_8hpp"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="13">
+        <label>include/equation/equation.hpp</label>
+        <link refid="equation_8hpp_source"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>include/value/value.hpp</label>
+        <link refid="value_8hpp_source"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>include/value/long.hpp</label>
+        <link refid="long_8hpp_source"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>include/function/function.hpp</label>
+        <link refid="function_8hpp_source"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>include/radix.hpp</label>
+        <link refid="radix_8hpp_source"/>
+      </node>
+      <node id="12">
+        <label>include/equation_base.hpp</label>
+        <link refid="equation__base_8hpp"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>include/value/variable.hpp</label>
+        <link refid="variable_8hpp_source"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classradix_1_1EquationBase" prot="public">radix::EquationBase</innerclass>
+    <innernamespace refid="namespaceradix">radix</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>RADIX_EQUATION_BASE_HPP_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>RADIX_EQUATION_BASE_HPP_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceradix" kindref="compound">radix</ref><sp/>{</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>EquationType<sp/>{<sp/>EQUATION<sp/>=<sp/>0,<sp/>VALUE<sp/>=<sp/>1,<sp/>FUNCTION<sp/>=<sp/>2<sp/>};</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9" refid="classradix_1_1EquationBase" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classradix_1_1EquationBase" kindref="compound">EquationBase</ref><sp/>{</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><ref refid="classradix_1_1EquationBase" kindref="compound">EquationBase</ref>();</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><ref refid="classradix_1_1EquationBase" kindref="compound">EquationBase</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>EquationType&amp;<sp/>type);</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>~<ref refid="classradix_1_1EquationBase" kindref="compound">EquationBase</ref>();</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/>Latex()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/>EquationType<sp/>type_;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="20"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="21"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>radix</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/>//<sp/>RADIX_EQUATION_BASE_HPP_</highlight></codeline>
+    </programlisting>
+    <location file="include/equation_base.hpp"/>
+  </compounddef>
+</doxygen>

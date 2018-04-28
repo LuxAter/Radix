@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="dir_b2f33c71d4aa5e7af42a1ca61ff5af1b" kind="dir">
+    <compoundname>source</compoundname>
+    <innerdir refid="dir_e5e775d875e2ff32ff98417fbb2175f9">source/equation</innerdir>
+    <innerdir refid="dir_c0d43baa5074a7e111d347c0db907161">source/function</innerdir>
+    <innerdir refid="dir_6f2556fe0c32c9fab74b79cf5f297595">source/value</innerdir>
+    <innerfile refid="equation__base_8cpp">equation_base.cpp</innerfile>
+    <innerfile refid="main_8cpp">main.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="source/"/>
+  </compounddef>
+</doxygen>

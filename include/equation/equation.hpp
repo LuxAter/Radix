@@ -4,19 +4,24 @@
 #include <memory>
 #include <vector>
 
-#include "../equation_base.hpp"
+#include "../expression.hpp"
 
 namespace radix {
-class Equation : public EquationBase {
+class Equation : public Expression {
  public:
-  typedef std::vector<std::shared_ptr<EquationBase>>::reference reference;
-  typedef std::vector<std::shared_ptr<EquationBase>>::const_reference const_reference;
-  typedef std::vector<std::shared_ptr<EquationBase>>::pointer pointer;
-  typedef std::vector<std::shared_ptr<EquationBase>>::const_pointer const_pointer;
-  typedef std::vector<std::shared_ptr<EquationBase>>::iterator iterator;
-  typedef std::vector<std::shared_ptr<EquationBase>>::const_iterator const_iterator;
-  typedef std::vector<std::shared_ptr<EquationBase>>::reverse_iterator reverse_iterator;
-  typedef std::vector<std::shared_ptr<EquationBase>>::const_reverse_iterator const_reverse_iterator;
+  typedef std::vector<std::shared_ptr<Expression>>::reference reference;
+  typedef std::vector<std::shared_ptr<Expression>>::const_reference
+      const_reference;
+  typedef std::vector<std::shared_ptr<Expression>>::pointer pointer;
+  typedef std::vector<std::shared_ptr<Expression>>::const_pointer
+      const_pointer;
+  typedef std::vector<std::shared_ptr<Expression>>::iterator iterator;
+  typedef std::vector<std::shared_ptr<Expression>>::const_iterator
+      const_iterator;
+  typedef std::vector<std::shared_ptr<Expression>>::reverse_iterator
+      reverse_iterator;
+  typedef std::vector<std::shared_ptr<Expression>>::const_reverse_iterator
+      const_reverse_iterator;
 
   Equation();
   virtual ~Equation();
@@ -43,15 +48,16 @@ class Equation : public EquationBase {
 
   void clear();
 
-  void insert(const_iterator pos, const std::shared_ptr<EquationBase>& val);
+  void insert(const_iterator pos, const std::shared_ptr<Expression>& val);
   void erase(const_iterator pos);
   void erase(const_iterator first, const_iterator last);
-  void push_back(const std::shared_ptr<EquationBase>& val);
+  void push_back(const std::shared_ptr<Expression>& val);
   void pop_back();
 
+  virtual std::string Latex() const;
 
  private:
-  std::vector<std::shared_ptr<EquationBase>> components_;
+  std::vector<std::shared_ptr<Expression>> components_;
 };
 
 std::ostream& operator<<(std::ostream& out, const Equation& lhs);

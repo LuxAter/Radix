@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="variable_8hpp" kind="file" language="C++">
+    <compoundname>variable.hpp</compoundname>
+    <includes refid="value_8hpp" local="yes">value.hpp</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">ostream</includes>
+    <includes local="no">string</includes>
+    <includedby refid="radix_8hpp" local="yes">include/radix.hpp</includedby>
+    <includedby refid="value_8cpp" local="yes">source/value/value.cpp</includedby>
+    <includedby refid="variable_8cpp" local="yes">source/value/variable.cpp</includedby>
+    <incdepgraph>
+      <node id="63">
+        <label>value.hpp</label>
+        <link refid="value_8hpp_source"/>
+        <childnode refid="64" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
+        </childnode>
+        <childnode refid="67" relation="include">
+        </childnode>
+      </node>
+      <node id="65">
+        <label>string</label>
+      </node>
+      <node id="67">
+        <label>ostream</label>
+      </node>
+      <node id="64">
+        <label>../equation_base.hpp</label>
+        <link refid="equation__base_8hpp_source"/>
+        <childnode refid="65" relation="include">
+        </childnode>
+      </node>
+      <node id="62">
+        <label>include/value/variable.hpp</label>
+        <link refid="variable_8hpp"/>
+        <childnode refid="63" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
+        </childnode>
+        <childnode refid="67" relation="include">
+        </childnode>
+        <childnode refid="65" relation="include">
+        </childnode>
+      </node>
+      <node id="66">
+        <label>memory</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="69">
+        <label>include/radix.hpp</label>
+        <link refid="radix_8hpp_source"/>
+      </node>
+      <node id="68">
+        <label>include/value/variable.hpp</label>
+        <link refid="variable_8hpp"/>
+        <childnode refid="69" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classradix_1_1Variable" prot="public">radix::Variable</innerclass>
+    <innernamespace refid="namespaceradix">radix</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>RADIX_VALUE_VARIABLE_HPP_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>RADIX_VALUE_VARIABLE_HPP_</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;value.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;ostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceradix" kindref="compound">radix</ref><sp/>{</highlight></codeline>
+<codeline lineno="11" refid="classradix_1_1Variable" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classradix_1_1Variable" kindref="compound">Variable</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classradix_1_1Value" kindref="compound">Value</ref><sp/>{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><ref refid="classradix_1_1Variable" kindref="compound">Variable</ref>();</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classradix_1_1Variable" kindref="compound">Variable</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>ref_str);</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classradix_1_1Variable" kindref="compound">Variable</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">&amp;<sp/>ref_ch);</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>~<ref refid="classradix_1_1Variable" kindref="compound">Variable</ref>();</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>SetRef(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>ref_str);</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>SetRef(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">&amp;<sp/>ref_ch);</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>SetVal(std::shared_ptr&lt;Value&gt;<sp/>val);</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/>std::string<sp/>GetRef()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/>std::shared_ptr&lt;Value&gt;<sp/>GetVal()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/>std::string<sp/>Latex()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><ref refid="classradix_1_1Variable" kindref="compound">Variable</ref>&amp;<sp/>operator=(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;Value&gt;<sp/>val);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">operator</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;Value&gt;();</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">operator</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;EquationBase&gt;();</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/>std::string<sp/>ref_;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/>std::shared_ptr&lt;Value&gt;<sp/>val_;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal">std::ostream&amp;<sp/>operator&lt;&lt;(std::ostream&amp;<sp/>out,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classradix_1_1Variable" kindref="compound">Variable</ref>&amp;<sp/>lhs);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal">std::shared_ptr&lt;Value&gt;<sp/>operator+(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classradix_1_1Variable" kindref="compound">Variable</ref>&amp;<sp/>lhs,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classradix_1_1Variable" kindref="compound">Variable</ref>&amp;<sp/>rhs);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">std::shared_ptr&lt;Value&gt;<sp/>operator-(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classradix_1_1Variable" kindref="compound">Variable</ref>&amp;<sp/>lhs,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classradix_1_1Variable" kindref="compound">Variable</ref>&amp;<sp/>rhs);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">std::shared_ptr&lt;Value&gt;<sp/>operator*(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classradix_1_1Variable" kindref="compound">Variable</ref>&amp;<sp/>lhs,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classradix_1_1Variable" kindref="compound">Variable</ref>&amp;<sp/>rhs);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">std::shared_ptr&lt;Value&gt;<sp/>operator/(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classradix_1_1Variable" kindref="compound">Variable</ref>&amp;<sp/>lhs,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classradix_1_1Variable" kindref="compound">Variable</ref>&amp;<sp/>rhs);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>radix</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/>//<sp/>RADIX_VALUE_VARIABLE_HPP_</highlight></codeline>
+    </programlisting>
+    <location file="include/value/variable.hpp"/>
+  </compounddef>
+</doxygen>

@@ -1,8 +1,9 @@
 #include "value/variable.hpp"
 
 #include <memory>
-#include <string>
 #include <ostream>
+#include <sstream>
+#include <string>
 
 #include "value/value.hpp"
 
@@ -20,16 +21,106 @@ void radix::Variable::SetVal(std::shared_ptr<Value> val) { val_ = val; }
 std::string radix::Variable::GetRef() const { return ref_; }
 std::shared_ptr<radix::Value> radix::Variable::GetVal() const { return val_; }
 
-radix::Variable& radix::Variable::operator=(const std::shared_ptr<Value> val){
+std::string radix::Variable::Latex() const {
+  std::stringstream ss;
+  if (val_ != NULL) {
+    return val_->Latex();
+  } else {
+    return ref_;
+  }
+}
+
+radix::Variable& radix::Variable::operator=(const std::shared_ptr<Value> val) {
   val_ = val;
   return *this;
 }
 
-std::ostream& radix::operator<<(std::ostream& out, const Variable& lhs){
-  if (lhs.GetVal() == NULL){
+radix::Variable::operator std::shared_ptr<Value>() {
+  return std::dynamic_pointer_cast<radix::Value>(
+      std::make_shared<Variable>(*this));
+}
+radix::Variable::operator std::shared_ptr<Expression>() {
+  return std::dynamic_pointer_cast<radix::Expression>(
+      std::make_shared<Variable>(*this));
+}
+
+std::ostream& radix::operator<<(std::ostream& out, const Variable& lhs) {
+  if (lhs.GetVal() == NULL) {
     out << lhs.GetRef();
-  }else{
+  } else {
     out << lhs.GetVal();
   }
   return out;
+}
+
+std::shared_ptr<radix::Value> radix::operator+(const Variable& lhs,
+                                               const Variable& rhs) {
+  if (lhs.GetVal() != NULL && rhs.GetVal() != NULL) {
+    return (lhs.GetVal() + rhs.GetVal());
+  }
+  return NULL;
+}
+std::shared_ptr<radix::Value> radix::operator-(const Variable& lhs,
+                                               const Variable& rhs) {
+  if (lhs.GetVal() != NULL && rhs.GetVal() != NULL) {
+    return (lhs.GetVal() - rhs.GetVal());
+  }
+  return NULL;
+}
+std::shared_ptr<radix::Value> radix::operator*(const Variable& lhs,
+                                               const Variable& rhs) {
+  if (lhs.GetVal() != NULL && rhs.GetVal() != NULL) {
+    return (lhs.GetVal() * rhs.GetVal());
+  }
+  return NULL;
+}
+std::shared_ptr<radix::Value> radix::operator/(const Variable& lhs,
+                                               const Variable& rhs) {
+  if (lhs.GetVal() != NULL && rhs.GetVal() != NULL) {
+    return (lhs.GetVal() / rhs.GetVal());
+  }
+  return NULL;
+}
+
+bool radix::operator==(const Variable& lhs, const Variable& rhs) {
+  if (lhs.GetVal() != NULL && rhs.GetVal() != NULL) {
+    return lhs.GetVal() == rhs.GetVal();
+  } else {
+    return lhs.GetRef() == rhs.GetRef();
+  }
+}
+bool radix::operator!=(const Variable& lhs, const Variable& rhs) {
+  if (lhs.GetVal() != NULL && rhs.GetVal() != NULL) {
+    return lhs.GetVal() != rhs.GetVal();
+  } else {
+    return lhs.GetRef() != rhs.GetRef();
+  }
+}
+bool radix::operator<(const Variable& lhs, const Variable& rhs) {
+  if (lhs.GetVal() != NULL && rhs.GetVal() != NULL) {
+    return lhs.GetVal() < rhs.GetVal();
+  } else {
+    return lhs.GetRef() < rhs.GetRef();
+  }
+}
+bool radix::operator>(const Variable& lhs, const Variable& rhs) {
+  if (lhs.GetVal() != NULL && rhs.GetVal() != NULL) {
+    return lhs.GetVal() > rhs.GetVal();
+  } else {
+    return lhs.GetRef() > rhs.GetRef();
+  }
+}
+bool radix::operator<=(const Variable& lhs, const Variable& rhs) {
+  if (lhs.GetVal() != NULL && rhs.GetVal() != NULL) {
+    return lhs.GetVal() <= rhs.GetVal();
+  } else {
+    return lhs.GetRef() <= rhs.GetRef();
+  }
+}
+bool radix::operator>=(const Variable& lhs, const Variable& rhs) {
+  if (lhs.GetVal() != NULL && rhs.GetVal() != NULL) {
+    return lhs.GetVal() >= rhs.GetVal();
+  } else {
+    return lhs.GetRef() >= rhs.GetRef();
+  }
 }

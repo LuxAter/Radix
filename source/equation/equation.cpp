@@ -1,10 +1,10 @@
 #include "equation/equation.hpp"
-#include "equation_base.hpp"
+#include "expression.hpp"
 
 #include <memory>
 #include <vector>
 
-radix::Equation::Equation() : EquationBase(EQUATION) {}
+radix::Equation::Equation() : Expression(EQUATION) {}
 radix::Equation::~Equation() {}
 
 radix::Equation::reference radix::Equation::front() {
@@ -64,14 +64,22 @@ radix::Equation::const_reverse_iterator radix::Equation::crend() const {
 void radix::Equation::clear() { components_.clear(); }
 
 void radix::Equation::insert(const_iterator pos,
-                             const std::shared_ptr<EquationBase>& val) {
+                             const std::shared_ptr<Expression>& val) {
   components_.insert(pos, val);
 }
 void radix::Equation::erase(const_iterator pos) { components_.erase(pos); }
 void radix::Equation::erase(const_iterator first, const_iterator last) {
   components_.erase(first, last);
 }
-void radix::Equation::push_back(const std::shared_ptr<EquationBase>& val) {
+void radix::Equation::push_back(const std::shared_ptr<Expression>& val) {
   components_.push_back(val);
 }
 void radix::Equation::pop_back() { components_.pop_back(); }
+
+std::string radix::Equation::Latex() const {
+  std::string repr;
+  for(auto& it : components_){
+    repr += it->Latex();
+  }
+  return repr;
+}

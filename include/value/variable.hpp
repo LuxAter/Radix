@@ -3,9 +3,9 @@
 
 #include "value.hpp"
 
-#include <string>
 #include <memory>
 #include <ostream>
+#include <string>
 
 namespace radix {
 class Variable : public Value {
@@ -22,7 +22,12 @@ class Variable : public Value {
   std::string GetRef() const;
   std::shared_ptr<Value> GetVal() const;
 
+  std::string Latex() const;
+
   Variable& operator=(const std::shared_ptr<Value> val);
+
+  operator std::shared_ptr<Value>();
+  operator std::shared_ptr<Expression>();
 
  private:
   std::string ref_;
@@ -30,6 +35,18 @@ class Variable : public Value {
 };
 
 std::ostream& operator<<(std::ostream& out, const Variable& lhs);
+
+std::shared_ptr<Value> operator+(const Variable& lhs, const Variable& rhs);
+std::shared_ptr<Value> operator-(const Variable& lhs, const Variable& rhs);
+std::shared_ptr<Value> operator*(const Variable& lhs, const Variable& rhs);
+std::shared_ptr<Value> operator/(const Variable& lhs, const Variable& rhs);
+
+bool operator==(const Variable& lhs, const Variable& rhs);
+bool operator!=(const Variable& lhs, const Variable& rhs);
+bool operator<(const Variable& lhs, const Variable& rhs);
+bool operator>(const Variable& lhs, const Variable& rhs);
+bool operator<=(const Variable& lhs, const Variable& rhs);
+bool operator>=(const Variable& lhs, const Variable& rhs);
 
 }  // namespace radix
 

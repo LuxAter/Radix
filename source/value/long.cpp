@@ -162,6 +162,10 @@ std::string radix::Long::GetString(int prec, bool left) const {
   return str;
 }
 
+std::string radix::Long::Latex() const {
+  return GetString();
+}
+
 radix::Long& radix::Long::operator=(int val) {
   Set(val);
   return *this;
@@ -230,6 +234,9 @@ radix::Long& radix::Long::operator/=(const Long& rhs) {
 
 radix::Long::operator std::shared_ptr<radix::Value>(){
   return std::dynamic_pointer_cast<radix::Value>(std::make_shared<Long>(*this));
+}
+radix::Long::operator std::shared_ptr<radix::Expression>(){
+  return std::dynamic_pointer_cast<radix::Expression>(std::make_shared<Long>(*this));
 }
 
 std::ostream& radix::operator<<(std::ostream& out, const Long& lhs) {
