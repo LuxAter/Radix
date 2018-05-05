@@ -265,3 +265,13 @@ bool radix::operator>=(const std::shared_ptr<Value>& lhs,
                        const std::shared_ptr<Value>& rhs) {
   return ValueComparison(lhs, rhs, Value::GEQ);
 }
+
+std::shared_ptr<radix::Expression> radix::CopyValue(std::shared_ptr<Expression> exp){
+  std::shared_ptr<Value> val = std::dynamic_pointer_cast<Value>(exp);
+  if(val->type_ == VARIABLE){
+    return Variable(*std::dynamic_pointer_cast<Variable>(val));
+  }else if(val->type_ == INT){
+    return Long(*std::dynamic_pointer_cast<Long>(val));
+  }
+  return NULL;
+}

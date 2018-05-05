@@ -49,6 +49,8 @@ bool operator>(const Variable& lhs, const Variable& rhs);
 bool operator<=(const Variable& lhs, const Variable& rhs);
 bool operator>=(const Variable& lhs, const Variable& rhs);
 
+typedef Variable var;
+
 }  // namespace radix
 
 #endif  // RADIX_VALUE_VARIABLE_HPP_

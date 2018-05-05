@@ -2,11 +2,28 @@
 
 #include <iostream>
 
+#include "function/function_base.hpp"
+#include "value/value.hpp"
+
 radix::Expression::Expression() {}
 radix::Expression::Expression(const ExpressionType& type) : type_(type) {}
+radix::Expression::Expression(const Expression& copy)
+    : type_(copy.type_),
+      next_(copy.next_),
+      prev_(copy.prev_),
+      children_(copy.children_) {}
 radix::Expression::~Expression() {}
 
-std::string radix::Expression::Latex(bool recurse) const { return std::string(); }
+std::shared_ptr<radix::Expression> radix::Expression::Eval() const {
+  std::cout << "EVALUATING...\n";
+  Expression exp(*this);
+  std::cout << exp.Tree() << "\n";
+  return NULL;
+}
+
+std::string radix::Expression::Latex(bool recurse) const {
+  return std::string();
+}
 std::string radix::Expression::Tree(std::size_t indent) const {
   std::string ret = "Exp[NULL]()";
   std::string rep = "\u2502" + std::string(indent, ' ');
@@ -48,6 +65,9 @@ void radix::Expression::insert(std::size_t pos,
     children_[pos + 1]->prev_ = child;
   }
 }
+std::shared_ptr<radix::Expression>& radix::Expression::at(std::size_t pos){
+  return children_.at(pos);
+}
 
 void radix::Expression::append(std::shared_ptr<Expression> child) {
   children_.push_back(child);
@@ -63,6 +83,8 @@ void radix::Expression::prepend(std::shared_ptr<Expression> child) {
   }
 }
 
+void radix::Expression::clear() { children_.clear(); }
+
 std::vector<std::shared_ptr<radix::Expression>>::iterator
 radix::Expression::begin() {
   return children_.begin();
@@ -71,13 +93,35 @@ std::vector<std::shared_ptr<radix::Expression>>::iterator
 radix::Expression::end() {
   return children_.end();
 }
-std::shared_ptr<radix::Expression> radix::Expression::front() {
+std::shared_ptr<radix::Expression>& radix::Expression::front() {
   return children_.front();
 }
-std::shared_ptr<radix::Expression> radix::Expression::back() {
+std::shared_ptr<radix::Expression>& radix::Expression::back() {
   return children_.back();
 }
 
-std::shared_ptr<radix::Expression> radix::GenerateExpression(std::string_view) {
+std::shared_ptr<radix::Expression> radix::GenerateExpression(
+    std::string_view str) {
   return std::make_shared<Expression>(Expression());
+}
+
+std::shared_ptr<radix::Expression> radix::CopyExpression(
+    std::shared_ptr<Expression> exp) {
+  std::shared_ptr<Expression> ret = std::make_shared<Expression>(Expression());
+  if (exp->type_ == VALUE) {
+    ret = CopyValue(exp);
+  } else if (exp->type_ == FUNCTION) {
+    ret = CopyFunction(exp);
+  }
+  ret->type_ = exp->type_;
+  if (exp->next_) {
+    ret->next_ = std::make_shared<Expression>(*(exp->next_));
+  }
+  if (exp->prev_) {
+    ret->prev_ = std::make_shared<Expression>(*(exp->prev_));
+  }
+  for (auto& it : exp->children_) {
+    ret->append(CopyExpression(it));
+  }
+  return ret;
 }

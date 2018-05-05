@@ -61,6 +61,8 @@ bool operator<=(const std::shared_ptr<Value>& lhs,
                 const std::shared_ptr<Value>& rhs);
 bool operator>=(const std::shared_ptr<Value>& lhs,
                 const std::shared_ptr<Value>& rhs);
+
+std::shared_ptr<Expression> CopyValue(std::shared_ptr<Expression> exp);
 }  // namespace radix
 
 #endif  // RADIX_VALUE_VALUE_HPP_

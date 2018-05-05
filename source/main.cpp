@@ -27,8 +27,15 @@ int main(int argc, char const* argv[]) {
   // exp.children_.push_back(GenerateExpression(""));
   // exp->children_.push_back(Long(3.1415));
   // exp->children_.push_back(Variable('x'));
-  std::cout << exp->Tree() << "\n";
-  std::cout << exp->Latex() << "\n";
+  // std::cout << exp->Latex() << "\n";
+  // std::cout << exp->Tree() << "\n";
+  Exp expa = CopyExpression(exp);
+  std::cout << expa->Tree() << "\n";
+  expa->back()->back() = Long(1/4.0);
+  std::cout << expa->Tree() << "\n";
+  // std::cout << expa->Latex() << "\n";
+  // std::cout << exp->Eval()->Latex() <<"\n";
+  // std::cout << exp->Tree() << "\n";
   /* code */
   return 0;
 }

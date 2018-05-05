@@ -32,7 +32,8 @@ radix::Operator::Operator(std::string op) : FunctionBase(OPERATOR) {
     }
   }
 }
-radix::Operator::Operator(const Operator& copy) : op_(copy.op_) {}
+radix::Operator::Operator(const Operator& copy)
+    : FunctionBase(OPERATOR), op_(copy.op_) {}
 
 radix::Operator::~Operator() {}
 

@@ -21,6 +21,8 @@ class FunctionBase : public Expression {
 
 std::ostream& operator<<(std::ostream& out,
                          const std::shared_ptr<FunctionBase>& lhs);
+
+std::shared_ptr<Expression> CopyFunction(std::shared_ptr<Expression> exp);
 }  // namespace radix
 
 #endif  // RADIX_FUNCTION_FUNCTION_HPP_

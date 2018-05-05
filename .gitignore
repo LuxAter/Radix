@@ -3,6 +3,7 @@
 *.log
 *.swp
 build/*
+docs/build/*
 radix
 unit-test
 .gdb_history

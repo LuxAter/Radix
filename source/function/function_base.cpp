@@ -6,6 +6,7 @@
 #include "expression.hpp"
 
 #include "function/operator.hpp"
+#include "function/function.hpp"
 
 radix::FunctionBase::FunctionBase() : Expression(FUNCTION), type_(USER) {}
 radix::FunctionBase::FunctionBase(FunctionType type)
@@ -65,4 +66,13 @@ std::ostream& radix::operator<<(std::ostream& out,
     }
   };
   return out;
+}
+std::shared_ptr<radix::Expression> radix::CopyFunction(std::shared_ptr<radix::Expression> exp){
+  std::shared_ptr<FunctionBase> func = std::dynamic_pointer_cast<FunctionBase>(exp);
+  if(func->type_ == OPERATOR){
+    return Operator(*std::dynamic_pointer_cast<Operator>(func));
+  }else if(func->type_ == STANDARD){
+    return Function(*std::dynamic_pointer_cast<Function>(func));
+  }
+  return NULL;
 }
