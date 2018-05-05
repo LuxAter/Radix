@@ -21,16 +21,16 @@ void radix::Variable::SetVal(std::shared_ptr<Value> val) { val_ = val; }
 std::string radix::Variable::GetRef() const { return ref_; }
 std::shared_ptr<radix::Value> radix::Variable::GetVal() const { return val_; }
 
-std::string radix::Variable::Latex() const {
+std::string radix::Variable::Latex(bool recurse) const {
   std::stringstream ss;
-  if (val_ != NULL) {
+  if (val_ != NULL && recurse == true) {
     return val_->Latex();
   } else {
     return ref_;
   }
 }
 std::string radix::Variable::Tree(std::size_t indent) const {
-  std::string ret = "Exp[Value[Variable]](" + Latex() + ")";
+  std::string ret = "Exp[Value[Variable]](" + Latex(false) + ")";
   std::string rep = "\u2502" + std::string(indent, ' ');
   std::string bar;
   for(std::size_t i = 0; i < indent; i++){

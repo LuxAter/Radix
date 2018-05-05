@@ -6,7 +6,7 @@ radix::Expression::Expression() {}
 radix::Expression::Expression(const ExpressionType& type) : type_(type) {}
 radix::Expression::~Expression() {}
 
-std::string radix::Expression::Latex() const { return std::string(); }
+std::string radix::Expression::Latex(bool recurse) const { return std::string(); }
 std::string radix::Expression::Tree(std::size_t indent) const {
   std::string ret = "Exp[NULL]()";
   std::string rep = "\u2502" + std::string(indent, ' ');

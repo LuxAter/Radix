@@ -12,7 +12,7 @@ radix::Value::Value() : Expression(VALUE), type_(VARIABLE) {}
 radix::Value::Value(ValueType type) : Expression(VALUE), type_(type) {}
 radix::Value::~Value() {}
 
-std::string radix::Value::Latex() const { return std::string(); }
+std::string radix::Value::Latex(bool recurse) const { return std::string(); }
 std::string radix::Value::Tree(std::size_t indent) const {
   std::string ret = "Exp[Value[NULL]]()";
   std::string rep = "\u2502" + std::string(indent, ' ');

@@ -14,7 +14,7 @@ namespace radix {
       Expression(const ExpressionType& type);
       virtual ~Expression();
 
-      virtual std::string Latex() const;
+      virtual std::string Latex(bool recurse = true) const;
       virtual std::string Tree(std::size_t indent=2) const;
 
       void insert(std::size_t pos, std::shared_ptr<Expression> child);

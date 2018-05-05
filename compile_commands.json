@@ -7,11 +7,25 @@
             "-std=c++2a",
             "-w",
             "-o",
-            "/home/arden/Programming/cpp/radix/build/source/./function/function.o",
-            "function/function.cpp"
+            "/home/arden/Programming/cpp/radix/build/source/./main.o",
+            "main.cpp"
         ],
         "directory": "/home/arden/Programming/cpp/radix/source",
-        "file": "function/function.cpp"
+        "file": "main.cpp"
+    },
+    {
+        "arguments": [
+            "c++",
+            "-c",
+            "-I/home/arden/Programming/cpp/radix/include",
+            "-std=c++2a",
+            "-w",
+            "-o",
+            "/home/arden/Programming/cpp/radix/build/source/./value/variable.o",
+            "value/variable.cpp"
+        ],
+        "directory": "/home/arden/Programming/cpp/radix/source",
+        "file": "value/variable.cpp"
     },
     {
         "arguments": [
@@ -26,5 +40,90 @@
         ],
         "directory": "/home/arden/Programming/cpp/radix/source",
         "file": "function/operator.cpp"
+    },
+    {
+        "arguments": [
+            "c++",
+            "-c",
+            "-I/home/arden/Programming/cpp/radix/include",
+            "-std=c++2a",
+            "-w",
+            "-o",
+            "/home/arden/Programming/cpp/radix/build/source/./value/value.o",
+            "value/value.cpp"
+        ],
+        "directory": "/home/arden/Programming/cpp/radix/source",
+        "file": "value/value.cpp"
+    },
+    {
+        "arguments": [
+            "c++",
+            "-c",
+            "-I/home/arden/Programming/cpp/radix/include",
+            "-std=c++2a",
+            "-w",
+            "-o",
+            "/home/arden/Programming/cpp/radix/build/source/./constants/mathematical.o",
+            "constants/mathematical.cpp"
+        ],
+        "directory": "/home/arden/Programming/cpp/radix/source",
+        "file": "constants/mathematical.cpp"
+    },
+    {
+        "arguments": [
+            "c++",
+            "-c",
+            "-I/home/arden/Programming/cpp/radix/include",
+            "-std=c++2a",
+            "-w",
+            "-o",
+            "/home/arden/Programming/cpp/radix/build/source/./function/function_base.o",
+            "function/function_base.cpp"
+        ],
+        "directory": "/home/arden/Programming/cpp/radix/source",
+        "file": "function/function_base.cpp"
+    },
+    {
+        "arguments": [
+            "c++",
+            "-c",
+            "-I/home/arden/Programming/cpp/radix/include",
+            "-I/home/arden/Programming/cpp/radix/external/googletest/googletest/include",
+            "-std=c++2a",
+            "-w",
+            "-o",
+            "/home/arden/Programming/cpp/radix/build/test/./tmp.o",
+            "tmp.cpp"
+        ],
+        "directory": "/home/arden/Programming/cpp/radix/test",
+        "file": "tmp.cpp"
+    },
+    {
+        "arguments": [
+            "c++",
+            "-c",
+            "-I/home/arden/Programming/cpp/radix/include",
+            "-std=c++2a",
+            "-w",
+            "-o",
+            "/home/arden/Programming/cpp/radix/build/source/./value/long.o",
+            "value/long.cpp"
+        ],
+        "directory": "/home/arden/Programming/cpp/radix/source",
+        "file": "value/long.cpp"
+    },
+    {
+        "arguments": [
+            "c++",
+            "-c",
+            "-I/home/arden/Programming/cpp/radix/include",
+            "-std=c++2a",
+            "-w",
+            "-o",
+            "/home/arden/Programming/cpp/radix/build/source/./expression.o",
+            "expression.cpp"
+        ],
+        "directory": "/home/arden/Programming/cpp/radix/source",
+        "file": "expression.cpp"
     }
 ]

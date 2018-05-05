@@ -4,10 +4,10 @@
 #include <memory>
 #include <ostream>
 
-#include "function.hpp"
+#include "function_base.hpp"
 
 namespace radix {
-class Operator : public Function {
+class Operator : public FunctionBase {
  public:
 enum OperatorOp {
   NONE = 0,
@@ -28,10 +28,10 @@ enum OperatorOp {
 
   virtual ~Operator();
 
-  virtual std::string Latex() const;
+  virtual std::string Latex(bool recurse = true) const;
   virtual std::string Tree(std::size_t indent = 2) const;
 
-  operator std::shared_ptr<Function>();
+  operator std::shared_ptr<FunctionBase>();
   operator std::shared_ptr<Expression>();
 
   OperatorOp op_;

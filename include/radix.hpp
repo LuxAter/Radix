@@ -2,6 +2,7 @@
 #include "value/value.hpp"
 #include "value/variable.hpp"
 #include "value/long.hpp"
-#include "function/function.hpp"
+#include "function/function_base.hpp"
 #include "function/operator.hpp"
+#include "function/function.hpp"
 #include "constants/mathematical.hpp"

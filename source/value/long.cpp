@@ -166,7 +166,7 @@ std::string radix::Long::GetString(int prec, bool left) const {
   return str;
 }
 
-std::string radix::Long::Latex() const {
+std::string radix::Long::Latex(bool recurse) const {
   return GetString();
 }
 std::string radix::Long::Tree(std::size_t indent) const {

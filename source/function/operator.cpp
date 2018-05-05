@@ -5,12 +5,12 @@
 #include <ostream>
 #include <string>
 
-#include "function/function.hpp"
+#include "function/function_base.hpp"
 
-radix::Operator::Operator() : Function(OPERATOR), op_(NONE) {}
-radix::Operator::Operator(OperatorOp op) : Function(OPERATOR), op_(op) {}
-radix::Operator::Operator(char op) : Function(OPERATOR) { ParseChar(op); }
-radix::Operator::Operator(std::string op) : Function(OPERATOR) {
+radix::Operator::Operator() : FunctionBase(OPERATOR), op_(NONE) {}
+radix::Operator::Operator(OperatorOp op) : FunctionBase(OPERATOR), op_(op) {}
+radix::Operator::Operator(char op) : FunctionBase(OPERATOR) { ParseChar(op); }
+radix::Operator::Operator(std::string op) : FunctionBase(OPERATOR) {
   if (op.size() == 1) {
     ParseChar(op[0]);
   } else {
@@ -36,10 +36,14 @@ radix::Operator::Operator(const Operator& copy) : op_(copy.op_) {}
 
 radix::Operator::~Operator() {}
 
-std::string radix::Operator::Latex() const {
+std::string radix::Operator::Latex(bool recurse) const {
   std::vector<std::string> children;
-  for (auto& it : children_) {
-    children.push_back(it->Latex());
+  if (recurse == true) {
+    for (auto& it : children_) {
+      children.push_back(it->Latex());
+    }
+  } else {
+    children.push_back(std::string());
   }
   switch (op_) {
     case ADD:
@@ -60,7 +64,7 @@ std::string radix::Operator::Latex() const {
   return std::string();
 }
 std::string radix::Operator::Tree(std::size_t indent) const {
-  std::string ret = "Exp[Function[Operator]](" + Latex() + ")";
+  std::string ret = "Exp[Function[Operator]](" + Latex(false) + ")";
   std::string rep = "\u2502" + std::string(indent, ' ');
   std::string bar;
   for (std::size_t i = 0; i < indent; i++) {
@@ -90,8 +94,8 @@ std::string radix::Operator::Tree(std::size_t indent) const {
   return ret;
 }
 
-radix::Operator::operator std::shared_ptr<radix::Function>() {
-  return std::dynamic_pointer_cast<radix::Function>(
+radix::Operator::operator std::shared_ptr<radix::FunctionBase>() {
+  return std::dynamic_pointer_cast<radix::FunctionBase>(
       std::make_shared<Operator>(*this));
 }
 radix::Operator::operator std::shared_ptr<radix::Expression>() {
