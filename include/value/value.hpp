@@ -8,20 +8,20 @@
 
 namespace radix {
 enum ValueType { VARIABLE = 0, INT = 1 };
-enum ValueOperator {
-  ADD = 0,
-  SUB = 1,
-  MUL = 2,
-  DIV = 3,
-  EQ = 4,
-  NEQ = 5,
-  LES = 6,
-  GRE = 7,
-  LEQ = 8,
-  GEQ = 9
-};
 class Value : public Expression {
  public:
+  enum ValueOperator {
+    ADD = 0,
+    SUB = 1,
+    MUL = 2,
+    DIV = 3,
+    EQ = 4,
+    NEQ = 5,
+    LES = 6,
+    GRE = 7,
+    LEQ = 8,
+    GEQ = 9
+  };
   Value();
   Value(ValueType type);
   virtual ~Value();
@@ -34,11 +34,11 @@ class Value : public Expression {
 
 std::ostream& operator<<(std::ostream& out, const std::shared_ptr<Value>& lhs);
 
-std::shared_ptr<Value> Operator(const std::shared_ptr<Value>& lhs,
+std::shared_ptr<Value> ValueOperation(const std::shared_ptr<Value>& lhs,
                                 const std::shared_ptr<Value>& rhs,
-                                ValueOperator op);
-bool Comparison(const std::shared_ptr<Value>& lhs,
-                const std::shared_ptr<Value>& rhs, ValueOperator op);
+                                Value::ValueOperator op);
+bool ValueComparison(const std::shared_ptr<Value>& lhs,
+                const std::shared_ptr<Value>& rhs, Value::ValueOperator op);
 
 std::shared_ptr<Value> operator+(const std::shared_ptr<Value>& lhs,
                                  const std::shared_ptr<Value>& rhs);

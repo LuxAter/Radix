@@ -17,6 +17,14 @@ namespace radix {
       virtual std::string Latex() const;
       virtual std::string Tree(std::size_t indent=2) const;
 
+      void insert(std::size_t pos, std::shared_ptr<Expression> child);
+      void append(std::shared_ptr<Expression> child);
+      void prepend(std::shared_ptr<Expression> child);
+      std::vector<std::shared_ptr<Expression>>::iterator begin();
+      std::vector<std::shared_ptr<Expression>>::iterator end();
+      std::shared_ptr<Expression> front();
+      std::shared_ptr<Expression> back();
+
       ExpressionType type_;
       std::shared_ptr<Expression> parent_, next_, prev_;
       std::vector<std::shared_ptr<Expression>> children_;

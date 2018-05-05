@@ -107,6 +107,10 @@ radix::Long::Long(const Long& copy) : Value(INT) {
   mpfr_init2(value_, mpfr_get_prec(copy.value_));
   mpfr_set(value_, copy.value_, MPFR_RNDD);
 }
+radix::Long::Long(const Long& copy, std::size_t prec) : Value(INT) {
+  SetPrecision(prec * 8);
+  mpfr_set(value_, copy.value_, MPFR_RNDD);
+}
 
 radix::Long::~Long() { mpfr_clear(value_); }
 

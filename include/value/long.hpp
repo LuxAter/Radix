@@ -53,6 +53,7 @@ class Long : public Value {
   Long(const char* val, std::size_t prec);
 
   Long(const Long& copy);
+  Long(const Long& copy, std::size_t prec);
 
   virtual ~Long();
 

@@ -12,34 +12,32 @@ radix::Value::Value() : Expression(VALUE), type_(VARIABLE) {}
 radix::Value::Value(ValueType type) : Expression(VALUE), type_(type) {}
 radix::Value::~Value() {}
 
-std::string radix::Value::Latex() const {
-  return std::string();
-}
+std::string radix::Value::Latex() const { return std::string(); }
 std::string radix::Value::Tree(std::size_t indent) const {
   std::string ret = "Exp[Value[NULL]]()";
   std::string rep = "\u2502" + std::string(indent, ' ');
   std::string bar;
-  for(std::size_t i = 0; i < indent; i++){
+  for (std::size_t i = 0; i < indent; i++) {
     bar += "\u2500";
   }
-  if(children_.size() != 0){
+  if (children_.size() != 0) {
     ret += "\n";
   }
   for (auto it = children_.begin(); it != children_.end(); ++it) {
-    if(it != children_.end() - 1){
+    if (it != children_.end() - 1) {
       ret += "\u251c" + bar;
-    }else{
+    } else {
       ret += "\u2514" + bar;
       rep = std::string(indent + 1, ' ');
     }
     std::string sub = (*it)->Tree(indent);
     size_t pos = 0;
     while ((pos = sub.find('\n', pos)) != std::string::npos) {
-         sub.insert(++pos, rep);
-         pos += rep.length();
+      sub.insert(++pos, rep);
+      pos += rep.length();
     }
     ret += sub;
-    if(it != children_.end() - 1){
+    if (it != children_.end() - 1) {
       ret += "\n";
     }
   }
@@ -65,9 +63,9 @@ std::ostream& radix::operator<<(std::ostream& out,
   return out;
 }
 
-std::shared_ptr<radix::Value> radix::Operator(const std::shared_ptr<Value>& lhs,
+std::shared_ptr<radix::Value> radix::ValueOperation(const std::shared_ptr<Value>& lhs,
                                               const std::shared_ptr<Value>& rhs,
-                                              ValueOperator op) {
+                                              Value::ValueOperator op) {
   if (lhs == NULL || rhs == NULL) {
     return NULL;
   }
@@ -76,16 +74,16 @@ std::shared_ptr<radix::Value> radix::Operator(const std::shared_ptr<Value>& lhs,
       switch (rhs->type_) {
         case VARIABLE: {
           switch (op) {
-            case ADD:
+            case Value::ADD:
               return std::dynamic_pointer_cast<Variable>(lhs)->GetVal() +
                      std::dynamic_pointer_cast<Variable>(rhs)->GetVal();
-            case SUB:
+            case Value::SUB:
               return std::dynamic_pointer_cast<Variable>(lhs)->GetVal() -
                      std::dynamic_pointer_cast<Variable>(rhs)->GetVal();
-            case MUL:
+            case Value::MUL:
               return std::dynamic_pointer_cast<Variable>(lhs)->GetVal() *
                      std::dynamic_pointer_cast<Variable>(rhs)->GetVal();
-            case DIV:
+            case Value::DIV:
               return std::dynamic_pointer_cast<Variable>(lhs)->GetVal() /
                      std::dynamic_pointer_cast<Variable>(rhs)->GetVal();
             default:
@@ -94,13 +92,13 @@ std::shared_ptr<radix::Value> radix::Operator(const std::shared_ptr<Value>& lhs,
         }
         default: {
           switch (op) {
-            case ADD:
+            case Value::ADD:
               return std::dynamic_pointer_cast<Variable>(lhs)->GetVal() + rhs;
-            case SUB:
+            case Value::SUB:
               return std::dynamic_pointer_cast<Variable>(lhs)->GetVal() - rhs;
-            case MUL:
+            case Value::MUL:
               return std::dynamic_pointer_cast<Variable>(lhs)->GetVal() * rhs;
-            case DIV:
+            case Value::DIV:
               return std::dynamic_pointer_cast<Variable>(lhs)->GetVal() / rhs;
             default:
               return NULL;
@@ -112,16 +110,16 @@ std::shared_ptr<radix::Value> radix::Operator(const std::shared_ptr<Value>& lhs,
       switch (rhs->type_) {
         case INT: {
           switch (op) {
-            case ADD:
+            case Value::ADD:
               return *std::dynamic_pointer_cast<Long>(lhs) +
                      *std::dynamic_pointer_cast<Long>(rhs);
-            case SUB:
+            case Value::SUB:
               return *std::dynamic_pointer_cast<Long>(lhs) -
                      *std::dynamic_pointer_cast<Long>(rhs);
-            case MUL:
+            case Value::MUL:
               return *std::dynamic_pointer_cast<Long>(lhs) *
                      *std::dynamic_pointer_cast<Long>(rhs);
-            case DIV:
+            case Value::DIV:
               return *std::dynamic_pointer_cast<Long>(lhs) /
                      *std::dynamic_pointer_cast<Long>(rhs);
             default:
@@ -135,11 +133,12 @@ std::shared_ptr<radix::Value> radix::Operator(const std::shared_ptr<Value>& lhs,
   return NULL;
 }
 
-bool radix::Comparison(const std::shared_ptr<Value>& lhs,
-                       const std::shared_ptr<Value>& rhs, ValueOperator op) {
+bool radix::ValueComparison(const std::shared_ptr<Value>& lhs,
+                       const std::shared_ptr<Value>& rhs,
+                       Value::ValueOperator op) {
   if (lhs == NULL || rhs == NULL) {
     switch (op) {
-      case EQ:
+      case Value::EQ:
         return lhs.get() == rhs.get();
       default:
         return false;
@@ -150,22 +149,22 @@ bool radix::Comparison(const std::shared_ptr<Value>& lhs,
       switch (rhs->type_) {
         case VARIABLE: {
           switch (op) {
-            case EQ:
+            case Value::EQ:
               return std::dynamic_pointer_cast<Variable>(lhs)->GetVal() ==
                      std::dynamic_pointer_cast<Variable>(rhs)->GetVal();
-            case NEQ:
+            case Value::NEQ:
               return std::dynamic_pointer_cast<Variable>(lhs)->GetVal() !=
                      std::dynamic_pointer_cast<Variable>(rhs)->GetVal();
-            case LES:
+            case Value::LES:
               return std::dynamic_pointer_cast<Variable>(lhs)->GetVal() <
                      std::dynamic_pointer_cast<Variable>(rhs)->GetVal();
-            case GRE:
+            case Value::GRE:
               return std::dynamic_pointer_cast<Variable>(lhs)->GetVal() >
                      std::dynamic_pointer_cast<Variable>(rhs)->GetVal();
-            case LEQ:
+            case Value::LEQ:
               return std::dynamic_pointer_cast<Variable>(lhs)->GetVal() <=
                      std::dynamic_pointer_cast<Variable>(rhs)->GetVal();
-            case GEQ:
+            case Value::GEQ:
               return std::dynamic_pointer_cast<Variable>(lhs)->GetVal() >=
                      std::dynamic_pointer_cast<Variable>(rhs)->GetVal();
             default:
@@ -174,17 +173,17 @@ bool radix::Comparison(const std::shared_ptr<Value>& lhs,
         }
         default: {
           switch (op) {
-            case EQ:
+            case Value::EQ:
               return std::dynamic_pointer_cast<Variable>(lhs)->GetVal() == rhs;
-            case NEQ:
+            case Value::NEQ:
               return std::dynamic_pointer_cast<Variable>(lhs)->GetVal() != rhs;
-            case LES:
+            case Value::LES:
               return std::dynamic_pointer_cast<Variable>(lhs)->GetVal() < rhs;
-            case GRE:
+            case Value::GRE:
               return std::dynamic_pointer_cast<Variable>(lhs)->GetVal() > rhs;
-            case LEQ:
+            case Value::LEQ:
               return std::dynamic_pointer_cast<Variable>(lhs)->GetVal() <= rhs;
-            case GEQ:
+            case Value::GEQ:
               return std::dynamic_pointer_cast<Variable>(lhs)->GetVal() >= rhs;
             default:
               return false;
@@ -196,22 +195,22 @@ bool radix::Comparison(const std::shared_ptr<Value>& lhs,
       switch (rhs->type_) {
         case INT: {
           switch (op) {
-            case EQ:
+            case Value::EQ:
               return *std::dynamic_pointer_cast<Long>(lhs) ==
                      *std::dynamic_pointer_cast<Long>(rhs);
-            case NEQ:
+            case Value::NEQ:
               return *std::dynamic_pointer_cast<Long>(lhs) !=
                      *std::dynamic_pointer_cast<Long>(rhs);
-            case LES:
+            case Value::LES:
               return *std::dynamic_pointer_cast<Long>(lhs) <
                      *std::dynamic_pointer_cast<Long>(rhs);
-            case GRE:
+            case Value::GRE:
               return *std::dynamic_pointer_cast<Long>(lhs) >
                      *std::dynamic_pointer_cast<Long>(rhs);
-            case LEQ:
+            case Value::LEQ:
               return *std::dynamic_pointer_cast<Long>(lhs) <=
                      *std::dynamic_pointer_cast<Long>(rhs);
-            case GEQ:
+            case Value::GEQ:
               return *std::dynamic_pointer_cast<Long>(lhs) >=
                      *std::dynamic_pointer_cast<Long>(rhs);
             default:
@@ -227,42 +226,42 @@ bool radix::Comparison(const std::shared_ptr<Value>& lhs,
 
 std::shared_ptr<radix::Value> radix::operator+(
     const std::shared_ptr<Value>& lhs, const std::shared_ptr<Value>& rhs) {
-  return Operator(lhs, rhs, ADD);
+  return ValueOperation(lhs, rhs, Value::ADD);
 }
 std::shared_ptr<radix::Value> radix::operator-(
     const std::shared_ptr<Value>& lhs, const std::shared_ptr<Value>& rhs) {
-  return Operator(lhs, rhs, SUB);
+  return ValueOperation(lhs, rhs, Value::SUB);
 }
 std::shared_ptr<radix::Value> radix::operator*(
     const std::shared_ptr<Value>& lhs, const std::shared_ptr<Value>& rhs) {
-  return Operator(lhs, rhs, MUL);
+  return ValueOperation(lhs, rhs, Value::MUL);
 }
 std::shared_ptr<radix::Value> radix::operator/(
     const std::shared_ptr<Value>& lhs, const std::shared_ptr<Value>& rhs) {
-  return Operator(lhs, rhs, DIV);
+  return ValueOperation(lhs, rhs, Value::DIV);
 }
 
 bool radix::operator==(const std::shared_ptr<Value>& lhs,
                        const std::shared_ptr<Value>& rhs) {
-  return Comparison(lhs, rhs, EQ);
+  return ValueComparison(lhs, rhs, Value::EQ);
 }
 bool radix::operator!=(const std::shared_ptr<Value>& lhs,
                        const std::shared_ptr<Value>& rhs) {
-  return Comparison(lhs, rhs, NEQ);
+  return ValueComparison(lhs, rhs, Value::NEQ);
 }
 bool radix::operator<(const std::shared_ptr<Value>& lhs,
                       const std::shared_ptr<Value>& rhs) {
-  return Comparison(lhs, rhs, LES);
+  return ValueComparison(lhs, rhs, Value::LES);
 }
 bool radix::operator>(const std::shared_ptr<Value>& lhs,
                       const std::shared_ptr<Value>& rhs) {
-  return Comparison(lhs, rhs, GRE);
+  return ValueComparison(lhs, rhs, Value::GRE);
 }
 bool radix::operator<=(const std::shared_ptr<Value>& lhs,
                        const std::shared_ptr<Value>& rhs) {
-  return Comparison(lhs, rhs, LEQ);
+  return ValueComparison(lhs, rhs, Value::LEQ);
 }
 bool radix::operator>=(const std::shared_ptr<Value>& lhs,
                        const std::shared_ptr<Value>& rhs) {
-  return Comparison(lhs, rhs, GEQ);
+  return ValueComparison(lhs, rhs, Value::GEQ);
 }
