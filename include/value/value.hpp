@@ -27,6 +27,7 @@ class Value : public Expression {
   virtual ~Value();
 
   virtual std::string Latex() const;
+  virtual std::string Tree(std::size_t indent = 2) const;
 
   ValueType type_;
 };

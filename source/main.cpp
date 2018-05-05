@@ -8,12 +8,11 @@
 using namespace radix;
 
 int main(int argc, char const* argv[]) {
-  Function f("\\Psi");
-  f.AddParam('x');
-  f.AddParam('y', Int(3.1415));
-  f.push_back(Variable('x'));
-  std::cout << f.Latex() << "\n";
-  std::cout << f({Int(0)}) << "\n";
+  Expression exp;
+  exp.children_.push_back(GenerateExpression(""));
+  exp.children_.push_back(Long(3.1415));
+  exp.children_.push_back(Variable('x'));
+  std::cout << exp.Tree() << "\n";
   /* code */
   return 0;
 }

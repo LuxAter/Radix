@@ -77,6 +77,7 @@ class Long : public Value {
   std::string GetString(int prec = -1, bool left=false) const;
 
   virtual std::string Latex() const;
+  virtual std::string Tree(std::size_t indent = 2) const;
 
   Long& operator=(int val);
   Long& operator=(long int val);

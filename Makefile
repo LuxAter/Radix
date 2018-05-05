@@ -15,7 +15,7 @@ export DOC_DIR= docs
 export BASE_PATH=$(shell pwd)
 
 export COMPILER=clang++
-export CXXFLAGS= -MMD -std=c++17 -w -c
+export CXXFLAGS= -MMD -std=c++2a -w -c
 
 export INSTALL_PATH=/usr/local
 
