@@ -123,6 +123,7 @@ Long operator+(const Long& lhs, const Long& rhs);
 Long operator-(const Long& lhs, const Long& rhs);
 Long operator*(const Long& lhs, const Long& rhs);
 Long operator/(const Long& lhs, const Long& rhs);
+Long operator%(const Long& lhs, const Long& rhs);
 
 // Basic Operators
 // ============================================================================

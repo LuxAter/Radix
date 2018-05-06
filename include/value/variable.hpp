@@ -13,6 +13,8 @@ class Variable : public Value {
   Variable();
   explicit Variable(const std::string& ref_str);
   explicit Variable(const char& ref_ch);
+  explicit Variable(const std::string& ref_str, std::shared_ptr<Value> val);
+  explicit Variable(const char& ref_ch, std::shared_ptr<Value> val);
   virtual ~Variable();
 
   void SetRef(const std::string& ref_str);

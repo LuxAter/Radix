@@ -6,6 +6,7 @@
 #include <string>
 
 #include "function/function_base.hpp"
+#include "value/value.hpp"
 
 radix::Function::Function() : FunctionBase(STANDARD), func_(NONE) {}
 radix::Function::Function(FunctionNames func)
@@ -72,6 +73,13 @@ radix::Function::Function(const Function& copy)
     : FunctionBase(STANDARD), func_(copy.func_) {}
 
 radix::Function::~Function() {}
+
+std::shared_ptr<radix::Expression> radix::Function::eval(){
+  switch(func_){
+    case SIN:
+      return std::dynamic_pointer_cast<Expression>(sin(std::dynamic_pointer_cast<Value>(children_.front())));
+  }
+}
 
 std::string radix::Function::Latex(bool recurse) const {
   std::vector<std::string> children;

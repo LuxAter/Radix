@@ -45,6 +45,8 @@ class Function : public FunctionBase {
   Function(const Function& copy);
   virtual ~Function();
 
+  virtual std::shared_ptr<Expression> eval();
+
   virtual std::string Latex(bool recurse = true) const;
   virtual std::string Tree(std::size_t indent = 2) const;
 

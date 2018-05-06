@@ -5,15 +5,21 @@
 
 #include "expression.hpp"
 
-#include "function/operator.hpp"
 #include "function/function.hpp"
+#include "function/operator.hpp"
 
 radix::FunctionBase::FunctionBase() : Expression(FUNCTION), type_(USER) {}
 radix::FunctionBase::FunctionBase(FunctionType type)
     : Expression(FUNCTION), type_(type) {}
 radix::FunctionBase::~FunctionBase() {}
 
-std::string radix::FunctionBase::Latex(bool recurse) const { return std::string(); }
+std::shared_ptr<radix::Expression> radix::FunctionBase::eval(){
+  return std::make_shared<Expression>(Expression());
+}
+
+std::string radix::FunctionBase::Latex(bool recurse) const {
+  return std::string();
+}
 std::string radix::FunctionBase::Tree(std::size_t indent) const {
   std::string ret = "Exp[Function[NULL]]()";
   std::string rep = "\u2502" + std::string(indent, ' ');
@@ -67,12 +73,24 @@ std::ostream& radix::operator<<(std::ostream& out,
   };
   return out;
 }
-std::shared_ptr<radix::Expression> radix::CopyFunction(std::shared_ptr<radix::Expression> exp){
-  std::shared_ptr<FunctionBase> func = std::dynamic_pointer_cast<FunctionBase>(exp);
-  if(func->type_ == OPERATOR){
+std::shared_ptr<radix::Expression> radix::CopyFunction(
+    std::shared_ptr<radix::Expression> exp) {
+  std::shared_ptr<FunctionBase> func =
+      std::dynamic_pointer_cast<FunctionBase>(exp);
+  if (func->type_ == OPERATOR) {
     return Operator(*std::dynamic_pointer_cast<Operator>(func));
-  }else if(func->type_ == STANDARD){
+  } else if (func->type_ == STANDARD) {
     return Function(*std::dynamic_pointer_cast<Function>(func));
+  }
+  return NULL;
+}
+
+std::shared_ptr<radix::Expression> radix::CopyFunction(const Expression* exp) {
+  const FunctionBase* func = dynamic_cast<const FunctionBase*>(exp);
+  if (func->type_ == OPERATOR) {
+    return Operator(*dynamic_cast<const Operator*>(func));
+  } else if (func->type_ == STANDARD) {
+    return Function(*dynamic_cast<const Function*>(func));
   }
   return NULL;
 }

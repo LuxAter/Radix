@@ -319,6 +319,12 @@ radix::Long radix::operator/(const Long& lhs, const Long& rhs) {
   mpfr_div(res.value_, lhs.value_, rhs.value_, MPFR_RNDD);
   return res;
 }
+radix::Long radix::operator%(const Long& lhs, const Long& rhs) {
+  Long res;
+  res.SetPrecision(std::min(lhs.GetPrecision(), rhs.GetPrecision()));
+  mpfr_fmod(res.value_, lhs.value_, rhs.value_, MPFR_RNDD);
+  return res;
+}
 
 radix::Long radix::abs(const Long& arg) {
   Long res;

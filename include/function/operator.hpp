@@ -28,6 +28,8 @@ enum OperatorOp {
 
   virtual ~Operator();
 
+  virtual std::shared_ptr<Expression> eval();
+
   virtual std::string Latex(bool recurse = true) const;
   virtual std::string Tree(std::size_t indent = 2) const;
 

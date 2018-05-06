@@ -6,6 +6,7 @@
 #include <string>
 
 #include "function/function_base.hpp"
+#include "value/value.hpp"
 
 radix::Operator::Operator() : FunctionBase(OPERATOR), op_(NONE) {}
 radix::Operator::Operator(OperatorOp op) : FunctionBase(OPERATOR), op_(op) {}
@@ -36,6 +37,36 @@ radix::Operator::Operator(const Operator& copy)
     : FunctionBase(OPERATOR), op_(copy.op_) {}
 
 radix::Operator::~Operator() {}
+
+std::shared_ptr<radix::Expression> radix::Operator::eval() {
+  switch (op_) {
+    case ADD:
+      return std::dynamic_pointer_cast<Expression>(
+          std::dynamic_pointer_cast<Value>(children_.front()) +
+          std::dynamic_pointer_cast<Value>(children_.back()));
+    case SUB:
+      return std::dynamic_pointer_cast<Expression>(
+          std::dynamic_pointer_cast<Value>(children_.front()) -
+          std::dynamic_pointer_cast<Value>(children_.back()));
+    case MUL:
+      return std::dynamic_pointer_cast<Expression>(
+          std::dynamic_pointer_cast<Value>(children_.front()) *
+          std::dynamic_pointer_cast<Value>(children_.back()));
+    case DIV:
+      return std::dynamic_pointer_cast<Expression>(
+          std::dynamic_pointer_cast<Value>(children_.front()) /
+          std::dynamic_pointer_cast<Value>(children_.back()));
+    case MOD:
+      return std::dynamic_pointer_cast<Expression>(
+          std::dynamic_pointer_cast<Value>(children_.front()) %
+          std::dynamic_pointer_cast<Value>(children_.back()));
+    case POW:
+      return std::dynamic_pointer_cast<Expression>(
+          pow(std::dynamic_pointer_cast<Value>(children_.front()),
+              std::dynamic_pointer_cast<Value>(children_.back())));
+  }
+  return std::make_shared<Expression>(Expression());
+}
 
 std::string radix::Operator::Latex(bool recurse) const {
   std::vector<std::string> children;
