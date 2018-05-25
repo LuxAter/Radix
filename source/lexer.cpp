@@ -7,18 +7,38 @@
 #include <vector>
 
 #include "estl/logger.hpp"
+#include "estl/tree.hpp"
 
 using namespace estl::logger;
 
 radix::Lexer::Lexer() {}
 radix::Lexer::~Lexer() {}
 
-void radix::Lexer::Parse(std::string exp){
+void radix::Lexer::Parse(std::string exp) {
   std::queue<std::string> token_queue = GetTokenQueue(exp);
-  while(token_queue.size() != 0){
-    std::cout << token_queue.front() << ' ';
+  std::stack<estl::tree::Tree<std::string>> tree_stack;
+  while (token_queue.size() != 0) {
+    std::string token = token_queue.front();
+    if (TokenIsNumeric(token) || TokenIsVariable(token)) {
+      tree_stack.push(estl::tree::Tree<std::string>(token));
+    } else if (TokenIsFunction(token)) {
+      estl::tree::Tree<std::string> func(token);
+      for (int i = 0; i < functions_[token][1]; ++i) {
+        func.prepend(tree_stack.top());
+        tree_stack.pop();
+      }
+      tree_stack.push(func);
+    } else if (TokenIsOperator(token)) {
+      estl::tree::Tree<std::string> op(token);
+      for (int i = 0; i < operators_[token][1]; ++i) {
+        op.prepend(tree_stack.top());
+        tree_stack.pop();
+      }
+      tree_stack.push(op);
+    }
     token_queue.pop();
   }
+  std::cout << estl::tree::pretty(tree_stack.top());
   std::cout << '\n';
 }
 
@@ -27,28 +47,35 @@ std::queue<std::string> radix::Lexer::GetTokenQueue(std::string exp) {
   pos_ = 0;
   std::queue<std::string> token_queue;
   std::stack<std::string> operator_stack;
+  std::vector<std::string> tq, os;
   std::string token;
   while (token != "EOS") {
     token = GetNextToken();
-    if(token == "EOS"){
+    if (token == "EOS") {
       break;
     }
-    std::cout << ">>" << token << "\n";
     if (TokenIsNumeric(token) || TokenIsVariable(token)) {
+      tq.push_back(token);
       token_queue.push(token);
     } else if (TokenIsFunction(token)) {
+      os.push_back(token);
       operator_stack.push(token);
     } else if (TokenIsOperator(token)) {
-      while (operator_stack.size() != 0 && (TokenIsFunction(operator_stack.top()) ||
+      while (operator_stack.size() != 0 &&
+             !TokenIsOpenParen(operator_stack.top()) &&
+             (TokenIsFunction(operator_stack.top()) ||
               operators_[operator_stack.top()][0] > operators_[token][0] ||
               (operators_[operator_stack.top()][0] == operators_[token][0] &&
-               !operators_[operator_stack.top()][2])) &&
-             !TokenIsOpenParen(operator_stack.top())) {
+               !operators_[operator_stack.top()][2]))) {
+        tq.push_back(operator_stack.top());
         token_queue.push(operator_stack.top());
+        os.pop_back();
         operator_stack.pop();
       }
+      os.push_back(token);
       operator_stack.push(token);
     } else if (TokenIsOpenParen(token)) {
+      os.push_back(token);
       operator_stack.push(token);
     } else if (TokenIsCloseParen(token)) {
       std::string matching = GetMatching(token);
@@ -56,12 +83,17 @@ std::queue<std::string> radix::Lexer::GetTokenQueue(std::string exp) {
         if (TokenIsOpenParen(operator_stack.top())) {
           estl::logger::Error("Unclosed parentheses block");
         }
+        tq.push_back(operator_stack.top());
         token_queue.push(operator_stack.top());
+        os.pop_back();
         operator_stack.pop();
       }
+      os.pop_back();
       operator_stack.pop();
-    }else if(token == ","){
-      while(!TokenIsOpenParen(operator_stack.top())){
+    } else if (token == ",") {
+      while (!TokenIsOpenParen(operator_stack.top())) {
+        tq.push_back(operator_stack.top());
+        os.pop_back();
         token_queue.push(operator_stack.top());
         operator_stack.pop();
       }
@@ -104,11 +136,13 @@ std::string radix::Lexer::GetNextToken() {
         local++;
         res += current;
         break;
-      }else if(current == ','){
+      } else if (current == ',') {
         local++;
         res += current;
         break;
       }
+    } else if (pos_ + local == expression_.size()) {
+      break;
     } else {
       if (!is_num && IsDigit(current)) {
         break;
@@ -128,7 +162,7 @@ std::string radix::Lexer::GetNextToken() {
       } else if (is_num && !IsDigit(current)) {
         expression_.insert(expression_.begin() + pos_ + local, '*');
         break;
-      } else if(current == ','){
+      } else if (current == ',') {
         break;
       }
     }
