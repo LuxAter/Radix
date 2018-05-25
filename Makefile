@@ -1,9 +1,6 @@
 SHELL = /bin/bash
 
 export NAME= radix
-export LINK= -lmpfr -lgmp
-export INCLUDE=
-export TYPE= TYPE(lib/exe)
 
 export SOURCE_DIR= source
 export TEST_DIR= test
@@ -16,6 +13,10 @@ export BASE_PATH=$(shell pwd)
 
 export COMPILER=clang++
 export CXXFLAGS= -MMD -std=c++2a -w -c
+
+export LINK= -lmpfr -lgmp
+export INCLUDE= -I$(BASE_PATH)/$(EXTERNAL_DIR)/estl
+export TYPE= TYPE(lib/exe)
 
 export INSTALL_PATH=/usr/local
 
