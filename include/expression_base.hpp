@@ -13,6 +13,7 @@ class ExpressionBase {
   ExpressionBase(const ExpressionType& type);
   virtual ~ExpressionBase();
 
+  virtual std::string Unicode(bool recurse = false) const;
   virtual std::string Latex(bool recurse = false) const;
 
   ExpressionType type_;

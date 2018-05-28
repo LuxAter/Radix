@@ -27,8 +27,14 @@ void radix::Variable::SetVal(std::shared_ptr<Value> val) { val_ = val; }
 std::string radix::Variable::GetRef() const { return ref_; }
 std::shared_ptr<radix::Value> radix::Variable::GetVal() const { return val_; }
 
+std::string radix::Variable::Unicode(bool recurse) const {
+  if(val_ != NULL && recurse == true){
+    return val_->Unicode();
+  }else{
+    return ref_;
+  }
+}
 std::string radix::Variable::Latex(bool recurse) const {
-  std::stringstream ss;
   if (val_ != NULL && recurse == true) {
     return val_->Latex();
   } else {

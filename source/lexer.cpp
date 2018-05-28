@@ -64,7 +64,7 @@ estl::tree::Tree<std::shared_ptr<radix::ExpressionBase>> radix::Lexer::Parse(std
     }
     token_queue.pop();
   }
-  std::cout << string_stack.top() << "\n<<\n";
+  // std::cout << string_stack.top() << "\n<<\n";
   return tree_stack.top();
 }
 
@@ -221,9 +221,35 @@ void radix::Lexer::LoadOperators() {
 }
 
 void radix::Lexer::LoadFunctions() {
+  functions_["log2"] = {-1, 1};
+  functions_["log"] = {-1, 1};
+  functions_["log10"] = {-1, 1};
+
   functions_["sin"] = {-1, 1};
   functions_["cos"] = {-1, 1};
   functions_["tan"] = {-1, 1};
+  functions_["csc"] = {-1, 1};
+  functions_["sec"] = {-1, 1};
+  functions_["cot"] = {-1, 1};
+  functions_["asin"] = {-1, 1};
+  functions_["acos"] = {-1, 1};
+  functions_["atan"] = {-1, 1};
+  functions_["acsc"] = {-1, 1};
+  functions_["asec"] = {-1, 1};
+  functions_["acot"] = {-1, 1};
+  functions_["sinh"] = {-1, 1};
+  functions_["cosh"] = {-1, 1};
+  functions_["tanh"] = {-1, 1};
+  functions_["csch"] = {-1, 1};
+  functions_["sech"] = {-1, 1};
+  functions_["coth"] = {-1, 1};
+  functions_["asinh"] = {-1, 1};
+  functions_["acosh"] = {-1, 1};
+  functions_["atanh"] = {-1, 1};
+  functions_["acsch"] = {-1, 1};
+  functions_["asech"] = {-1, 1};
+  functions_["acoth"] = {-1, 1};
+
   functions_["pow"] = {-1, 2};
   functions_["max"] = {-1, 2};
   functions_["min"] = {-1, 2};

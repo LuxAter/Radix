@@ -12,6 +12,7 @@ radix::Value::Value() : ExpressionBase(VALUE), type_(VARIABLE) {}
 radix::Value::Value(ValueType type) : ExpressionBase(VALUE), type_(type) {}
 radix::Value::~Value() {}
 
+std::string radix::Value::Unicode(bool recurse) const {return std::string();}
 std::string radix::Value::Latex(bool recurse) const { return std::string(); }
 
 std::ostream& radix::operator<<(std::ostream& out,

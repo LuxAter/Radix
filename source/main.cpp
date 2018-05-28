@@ -19,7 +19,10 @@ int main(int argc, char const* argv[]) {
   lex.LoadOperators();
   lex.LoadFunctions();
   Expression ex = lex.Parse(expression);
-  std::cout << PrintAST(ex) << '\n';
+  // std::cout << PrintAST(ex) << '\n';
+  // std::cout << Unicode(ex) << '\n';
+  // std::cout << Latex(ex) << "\n";
+  std::cout << PrintDot(ex) << '\n';
   // lex.SetExpression(expression);
   // std::string token = "";
   // while(token != "EOS"){

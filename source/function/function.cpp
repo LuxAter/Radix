@@ -110,11 +110,79 @@ std::shared_ptr<radix::ExpressionBase> radix::Function::eval() {
   // }
 }
 
+std::string radix::Function::Unicode(bool recurse) const {
+  std::vector<std::string> args;
+  if (recurse) {
+    for (std::size_t i = 0; i < nargs_ + 1; i++) {
+      args.push_back("$" + std::to_string(i));
+    }
+  } else {
+    for (std::size_t i = 0; i < nargs_ + 1; i++) {
+      args.push_back("");
+    }
+  }
+  switch(func_){
+    case LOG_2:
+      return "log2(" + args.at(0) + ")";
+    case LOG:
+      return "log(" + args.at(0) + ")";
+    case LOG_10:
+      return "log10(" + args.at(0) + ")";
+    case SIN:
+      return "sin(" + args.at(0) + ")";
+    case COS:
+      return "cos(" + args.at(0) + ")";
+    case TAN:
+      return "tan(" + args.at(0) + ")";
+    case CSC:
+      return "csc(" + args.at(0) + ")";
+    case SEC:
+      return "sec(" + args.at(0) + ")";
+    case COT:
+      return "cot(" + args.at(0) + ")";
+    case ASIN:
+      return "asin(" + args.at(0) + ")";
+    case ACOS:
+      return "acos(" + args.at(0) + ")";
+    case ATAN:
+      return "atan(" + args.at(0) + ")";
+    case ACSC:
+      return "acsc(" + args.at(0) + ")";
+    case ASEC:
+      return "asec(" + args.at(0) + ")";
+    case ACOT:
+      return "acot(" + args.at(0) + ")";
+    case SINH:
+      return "sinh(" + args.at(0) + ")";
+    case COSH:
+      return "cosh(" + args.at(0) + ")";
+    case TANH:
+      return "tanh(" + args.at(0) + ")";
+    case CSCH:
+      return "csch(" + args.at(0) + ")";
+    case SECH:
+      return "sech(" + args.at(0) + ")";
+    case COTH:
+      return "coth(" + args.at(0) + ")";
+    case ASINH:
+      return "asinh(" + args.at(0) + ")";
+    case ACOSH:
+      return "acosh(" + args.at(0) + ")";
+    case ATANH:
+      return "atanh(" + args.at(0) + ")";
+    case ACSCH:
+      return "acsch(" + args.at(0) + ")";
+    case ASECH:
+      return "asech(" + args.at(0) + ")";
+    case ACOTH:
+      return "acoth(" + args.at(0) + ")";
+  }
+}
 std::string radix::Function::Latex(bool recurse) const {
   std::vector<std::string> args;
   if (recurse) {
     for (std::size_t i = 0; i < nargs_ + 1; i++) {
-      // args.push_back(estl::basic::format("$%lu", i));
+      args.push_back("$" + std::to_string(i));
     }
   } else {
     for (std::size_t i = 0; i < nargs_ + 1; i++) {

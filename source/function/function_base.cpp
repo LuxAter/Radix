@@ -17,6 +17,9 @@ std::shared_ptr<radix::ExpressionBase> radix::FunctionBase::eval(){
   return std::make_shared<ExpressionBase>(ExpressionBase());
 }
 
+std::string radix::FunctionBase::Unicode(bool recurse) const{
+  return std::string();
+}
 std::string radix::FunctionBase::Latex(bool recurse) const {
   return std::string();
 }

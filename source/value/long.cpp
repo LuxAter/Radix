@@ -166,6 +166,9 @@ std::string radix::Long::GetString(int prec, bool left) const {
   return str;
 }
 
+std::string radix::Long::Unicode(bool recurse) const {
+  return GetString();
+}
 std::string radix::Long::Latex(bool recurse) const {
   return GetString();
 }

@@ -24,6 +24,7 @@ class Variable : public Value {
   std::string GetRef() const;
   std::shared_ptr<Value> GetVal() const;
 
+  virtual std::string Unicode(bool recurse = true) const;
   virtual std::string Latex(bool recurse = true) const;
   // virtual std::string Tree(std::size_t indent = 2) const;
 

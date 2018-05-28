@@ -14,6 +14,15 @@ namespace radix {
 
   std::string PrintAST(const Expression exp);
   std::string PrintAST(const Expression *exp);
+
+  std::string PrintDot(const Expression exp);
+  std::string PrintDot(const Expression *exp, std::vector<std::string>& nodes, std::string parent=std::string());
+
+  std::string Latex(const Expression exp);
+  std::string Latex(const Expression *exp);
+
+  std::string Unicode(const Expression exp);
+  std::string Unicode(const Expression *exp);
 } // namespace radix
 
 #endif  // RADIX_EXPRESSION_HPP_

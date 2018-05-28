@@ -27,6 +27,7 @@ class Value : public ExpressionBase {
   Value(ValueType type);
   virtual ~Value();
 
+  virtual std::string Unicode(bool recurse = true) const;
   virtual std::string Latex(bool recurse = true) const;
 
   ValueType type_;

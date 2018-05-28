@@ -30,6 +30,7 @@ enum OperatorOp {
 
   // virtual std::shared_ptr<ExpressionBase> eval();
 
+  virtual std::string Unicode(bool recurse = true) const;
   virtual std::string Latex(bool recurse = true) const;
   // virtual std::string Tree(std::size_t indent = 2) const;
 
@@ -37,6 +38,7 @@ enum OperatorOp {
   operator std::shared_ptr<ExpressionBase>();
 
   OperatorOp op_;
+  std::size_t nargs_;
  private:
   void ParseChar(char op);
 };
