@@ -52,7 +52,7 @@ radix::Long::Long(long double val) : Value(INT) {
 }
 radix::Long::Long(std::string val) : Value(INT) {
   SetPrecision(val.size() * sizeof(char) * 8);
-  mpfr_set_str(value_, val.c_str(), val.size(), MPFR_RNDD);
+  mpfr_set_str(value_, val.c_str(), 10, MPFR_RNDD);
 }
 radix::Long::Long(const char* val) : Value(INT) {
   SetPrecision(std::strlen(val) * sizeof(char) * 8);
@@ -169,36 +169,6 @@ std::string radix::Long::GetString(int prec, bool left) const {
 std::string radix::Long::Latex(bool recurse) const {
   return GetString();
 }
-std::string radix::Long::Tree(std::size_t indent) const {
-  std::string ret = "Exp[Value[Long]](" + Latex() + ")";
-  std::string rep = "\u2502" + std::string(indent, ' ');
-  std::string bar;
-  for(std::size_t i = 0; i < indent; i++){
-    bar += "\u2500";
-  }
-  if(children_.size() != 0){
-    ret += "\n";
-  }
-  for (auto it = children_.begin(); it != children_.end(); ++it) {
-    if(it != children_.end() - 1){
-      ret += "\u251c" + bar;
-    }else{
-      ret += "\u2514" + bar;
-      rep = std::string(indent + 1, ' ');
-    }
-    std::string sub = (*it)->Tree(indent);
-    size_t pos = 0;
-    while ((pos = sub.find('\n', pos)) != std::string::npos) {
-         sub.insert(++pos, rep);
-         pos += rep.length();
-    }
-    ret += sub;
-    if(it != children_.end() - 1){
-      ret += "\n";
-    }
-  }
-  return ret;
-}
 
 radix::Long& radix::Long::operator=(int val) {
   Set(val);
@@ -269,8 +239,8 @@ radix::Long& radix::Long::operator/=(const Long& rhs) {
 radix::Long::operator std::shared_ptr<radix::Value>(){
   return std::dynamic_pointer_cast<radix::Value>(std::make_shared<Long>(*this));
 }
-radix::Long::operator std::shared_ptr<radix::Expression>(){
-  return std::dynamic_pointer_cast<radix::Expression>(std::make_shared<Long>(*this));
+radix::Long::operator std::shared_ptr<radix::ExpressionBase>(){
+  return std::dynamic_pointer_cast<radix::ExpressionBase>(std::make_shared<Long>(*this));
 }
 
 std::ostream& radix::operator<<(std::ostream& out, const Long& lhs) {

@@ -1,5 +1,5 @@
 #include "expression.hpp"
-#include "parser/latex.hpp"
+#include "expression_base.hpp"
 #include "value/value.hpp"
 #include "value/variable.hpp"
 #include "value/long.hpp"

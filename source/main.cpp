@@ -18,7 +18,8 @@ int main(int argc, char const* argv[]) {
   Lexer lex;
   lex.LoadOperators();
   lex.LoadFunctions();
-  lex.Parse(expression);
+  Expression ex = lex.Parse(expression);
+  std::cout << PrintAST(ex) << '\n';
   // lex.SetExpression(expression);
   // std::string token = "";
   // while(token != "EOS"){

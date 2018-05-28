@@ -3,52 +3,22 @@
 #include <memory>
 #include <ostream>
 
-#include "expression.hpp"
+#include "expression_base.hpp"
 
 #include "function/function.hpp"
 #include "function/operator.hpp"
 
-radix::FunctionBase::FunctionBase() : Expression(FUNCTION), type_(USER) {}
+radix::FunctionBase::FunctionBase() : ExpressionBase(FUNCTION), type_(USER) {}
 radix::FunctionBase::FunctionBase(FunctionType type)
-    : Expression(FUNCTION), type_(type) {}
+    : ExpressionBase(FUNCTION), type_(type) {}
 radix::FunctionBase::~FunctionBase() {}
 
-std::shared_ptr<radix::Expression> radix::FunctionBase::eval(){
-  return std::make_shared<Expression>(Expression());
+std::shared_ptr<radix::ExpressionBase> radix::FunctionBase::eval(){
+  return std::make_shared<ExpressionBase>(ExpressionBase());
 }
 
 std::string radix::FunctionBase::Latex(bool recurse) const {
   return std::string();
-}
-std::string radix::FunctionBase::Tree(std::size_t indent) const {
-  std::string ret = "Exp[Function[NULL]]()";
-  std::string rep = "\u2502" + std::string(indent, ' ');
-  std::string bar;
-  for (std::size_t i = 0; i < indent; i++) {
-    bar += "\u2500";
-  }
-  if (children_.size() != 0) {
-    ret += "\n";
-  }
-  for (auto it = children_.begin(); it != children_.end(); ++it) {
-    if (it != children_.end() - 1) {
-      ret += "\u251c" + bar;
-    } else {
-      ret += "\u2514" + bar;
-      rep = std::string(indent + 1, ' ');
-    }
-    std::string sub = (*it)->Tree(indent);
-    size_t pos = 0;
-    while ((pos = sub.find('\n', pos)) != std::string::npos) {
-      sub.insert(++pos, rep);
-      pos += rep.length();
-    }
-    ret += sub;
-    if (it != children_.end() - 1) {
-      ret += "\n";
-    }
-  }
-  return ret;
 }
 
 std::ostream& radix::operator<<(std::ostream& out,
@@ -73,8 +43,8 @@ std::ostream& radix::operator<<(std::ostream& out,
   };
   return out;
 }
-std::shared_ptr<radix::Expression> radix::CopyFunction(
-    std::shared_ptr<radix::Expression> exp) {
+std::shared_ptr<radix::ExpressionBase> radix::CopyFunction(
+    std::shared_ptr<radix::ExpressionBase> exp) {
   std::shared_ptr<FunctionBase> func =
       std::dynamic_pointer_cast<FunctionBase>(exp);
   if (func->type_ == OPERATOR) {
@@ -85,7 +55,7 @@ std::shared_ptr<radix::Expression> radix::CopyFunction(
   return NULL;
 }
 
-std::shared_ptr<radix::Expression> radix::CopyFunction(const Expression* exp) {
+std::shared_ptr<radix::ExpressionBase> radix::CopyFunction(const ExpressionBase* exp) {
   const FunctionBase* func = dynamic_cast<const FunctionBase*>(exp);
   if (func->type_ == OPERATOR) {
     return Operator(*dynamic_cast<const Operator*>(func));

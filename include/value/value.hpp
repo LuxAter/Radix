@@ -1,14 +1,14 @@
 #ifndef RADIX_VALUE_VALUE_HPP_
 #define RADIX_VALUE_VALUE_HPP_
 
-#include "../expression.hpp"
+#include "../expression_base.hpp"
 
 #include <memory>
 #include <ostream>
 
 namespace radix {
 enum ValueType { VARIABLE = 0, INT = 1 };
-class Value : public Expression {
+class Value : public ExpressionBase {
  public:
   enum ValueOperator {
     ADD = 0,
@@ -28,7 +28,6 @@ class Value : public Expression {
   virtual ~Value();
 
   virtual std::string Latex(bool recurse = true) const;
-  virtual std::string Tree(std::size_t indent = 2) const;
 
   ValueType type_;
 };
@@ -162,8 +161,8 @@ std::shared_ptr<Value> sin(const std::shared_ptr<Value>& arg);
 // std::shared_ptr<Value> trunc(const std::shared_ptr<Value>& arg);
 // std::shared_ptr<Value> round(const std::shared_ptr<Value>& arg);
 //
-std::shared_ptr<Expression> CopyValue(std::shared_ptr<Expression> exp);
-std::shared_ptr<Expression> CopyValue(const Expression* exp);
+std::shared_ptr<ExpressionBase> CopyValue(std::shared_ptr<ExpressionBase> exp);
+std::shared_ptr<ExpressionBase> CopyValue(const ExpressionBase* exp);
 }  // namespace radix
 
 #endif  // RADIX_VALUE_VALUE_HPP_

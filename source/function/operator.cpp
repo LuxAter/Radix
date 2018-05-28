@@ -38,100 +38,50 @@ radix::Operator::Operator(const Operator& copy)
 
 radix::Operator::~Operator() {}
 
-std::shared_ptr<radix::Expression> radix::Operator::eval() {
-  switch (op_) {
-    case ADD:
-      return std::dynamic_pointer_cast<Expression>(
-          std::dynamic_pointer_cast<Value>(children_.front()) +
-          std::dynamic_pointer_cast<Value>(children_.back()));
-    case SUB:
-      return std::dynamic_pointer_cast<Expression>(
-          std::dynamic_pointer_cast<Value>(children_.front()) -
-          std::dynamic_pointer_cast<Value>(children_.back()));
-    case MUL:
-      return std::dynamic_pointer_cast<Expression>(
-          std::dynamic_pointer_cast<Value>(children_.front()) *
-          std::dynamic_pointer_cast<Value>(children_.back()));
-    case DIV:
-      return std::dynamic_pointer_cast<Expression>(
-          std::dynamic_pointer_cast<Value>(children_.front()) /
-          std::dynamic_pointer_cast<Value>(children_.back()));
-    case MOD:
-      return std::dynamic_pointer_cast<Expression>(
-          std::dynamic_pointer_cast<Value>(children_.front()) %
-          std::dynamic_pointer_cast<Value>(children_.back()));
-    case POW:
-      return std::dynamic_pointer_cast<Expression>(
-          pow(std::dynamic_pointer_cast<Value>(children_.front()),
-              std::dynamic_pointer_cast<Value>(children_.back())));
-  }
-  return std::make_shared<Expression>(Expression());
-}
-
 std::string radix::Operator::Latex(bool recurse) const {
-  std::vector<std::string> children;
-  if (recurse == true) {
-    for (auto& it : children_) {
-      children.push_back(it->Latex());
+  if (recurse){
+    switch(op_){
+      case ADD:
+        return "$0+$1";
+      case SUB:
+        return "$0-$1";
+      case MUL:
+        return "$0*$1";
+      case DIV:
+        return "$0/$1";
+      case MOD:
+        return "$0%$1";
+      case POW:
+        return "$0^$1";
+      case FAC:
+        return "$0!";
     }
-  } else {
-    children.push_back(std::string());
-  }
-  switch (op_) {
-    case ADD:
-      return children.front() + "+" + children.back();
-    case SUB:
-      return children.front() + "-" + children.back();
-    case MUL:
-      return children.front() + "\\cdot" + children.back();
-    case DIV:
-      return "\\frac{" + children.front() + "}{" + children.back() + "}";
-    case MOD:
-      return children.front() + "\\bmod" + children.back();
-    case POW:
-      return "{" + children.front() + "}^{" + children.back() + "}";
-    case FAC:
-      return children.front() + "!";
+  }else{
+    switch(op_){
+      case ADD:
+        return "+";
+      case SUB:
+        return "-";
+      case MUL:
+        return "*";
+      case DIV:
+        return "/";
+      case MOD:
+        return "%";
+      case POW:
+        return "^";
+      case FAC:
+        return "!";
+    }
   }
   return std::string();
 }
-std::string radix::Operator::Tree(std::size_t indent) const {
-  std::string ret = "Exp[Function[Operator]](" + Latex(false) + ")";
-  std::string rep = "\u2502" + std::string(indent, ' ');
-  std::string bar;
-  for (std::size_t i = 0; i < indent; i++) {
-    bar += "\u2500";
-  }
-  if (children_.size() != 0) {
-    ret += "\n";
-  }
-  for (auto it = children_.begin(); it != children_.end(); ++it) {
-    if (it != children_.end() - 1) {
-      ret += "\u251c" + bar;
-    } else {
-      ret += "\u2514" + bar;
-      rep = std::string(indent + 1, ' ');
-    }
-    std::string sub = (*it)->Tree(indent);
-    size_t pos = 0;
-    while ((pos = sub.find('\n', pos)) != std::string::npos) {
-      sub.insert(++pos, rep);
-      pos += rep.length();
-    }
-    ret += sub;
-    if (it != children_.end() - 1) {
-      ret += "\n";
-    }
-  }
-  return ret;
-}
-
 radix::Operator::operator std::shared_ptr<radix::FunctionBase>() {
   return std::dynamic_pointer_cast<radix::FunctionBase>(
       std::make_shared<Operator>(*this));
 }
-radix::Operator::operator std::shared_ptr<radix::Expression>() {
-  return std::dynamic_pointer_cast<radix::Expression>(
+radix::Operator::operator std::shared_ptr<radix::ExpressionBase>() {
+  return std::dynamic_pointer_cast<radix::ExpressionBase>(
       std::make_shared<Operator>(*this));
 }
 

@@ -74,122 +74,91 @@ radix::Function::Function(const Function& copy)
 
 radix::Function::~Function() {}
 
-std::shared_ptr<radix::Expression> radix::Function::eval(){
-  switch(func_){
-    case SIN:
-      return std::dynamic_pointer_cast<Expression>(sin(std::dynamic_pointer_cast<Value>(children_.front())));
-  }
+std::shared_ptr<radix::ExpressionBase> radix::Function::eval(){
+  // switch(func_){
+  //   case SIN:
+  //     return std::dynamic_pointer_cast<ExpressionBase>(sin(std::dynamic_pointer_cast<Value>(children_.front())));
+  // }
 }
 
 std::string radix::Function::Latex(bool recurse) const {
-  std::vector<std::string> children;
-  if (recurse == true) {
-    for (auto& it : children_) {
-      children.push_back(it->Latex());
-    }
-  } else {
-    children.push_back(std::string());
-  }
-  switch (func_) {
-    case LOG_2:
-      return "\\log_{2}\\left(" + children.front() + "\\right)";
-    case LOG:
-      if (children.size() == 1) {
-        return "\\log\\left(" + children.front() + "\\right)";
-      } else {
-        return "\\log_{" + children.front() + "}\\left(" + children.back() +
-               "\\right)";
-      }
-    case LOG_10:
-      return "\\log_{10}\\left(" + children.front() + "\\right)";
-    case SIN:
-      return "\\sin\\left(" + children.front() + "\\right)";
-    case COS:
-      return "\\cos\\left(" + children.front() + "\\right)";
-    case TAN:
-      return "\\tan\\left(" + children.front() + "\\right)";
-    case CSC:
-      return "\\csc\\left(" + children.front() + "\\right)";
-    case SEC:
-      return "\\sec\\left(" + children.front() + "\\right)";
-    case COT:
-      return "\\cot\\left(" + children.front() + "\\right)";
-    case ASIN:
-      return "\\arcsin\\left(" + children.front() + "\\right)";
-    case ACOS:
-      return "\\arccos\\left(" + children.front() + "\\right)";
-    case ATAN:
-      return "\\arctan\\left(" + children.front() + "\\right)";
-    case ACSC:
-      return "\\text{arccsc}\\left(" + children.front() + "\\right)";
-    case ASEC:
-      return "\\text{arcsec}\\left(" + children.front() + "\\right)";
-    case ACOT:
-      return "\\text{arccot}\\left(" + children.front() + "\\right)";
-    case SINH:
-      return "\\sinh\\left(" + children.front() + "\\right)";
-    case COSH:
-      return "\\cosh\\left(" + children.front() + "\\right)";
-    case TANH:
-      return "\\tanh\\left(" + children.front() + "\\right)";
-    case COTH:
-      return "\\text{coth}\\left(" + children.front() + "\\right)";
-    case SECH:
-      return "\\text{sech}\\left(" + children.front() + "\\right)";
-    case CSCH:
-      return "\\text{csch}\\left(" + children.front() + "\\right)";
-    case ASINH:
-      return "\\text{arcsinh}\\left(" + children.front() + "\\right)";
-    case ACOSH:
-      return "\\text{arccosh}\\left(" + children.front() + "\\right)";
-    case ATANH:
-      return "\\text{arctanh}\\left(" + children.front() + "\\right)";
-    case ACOTH:
-      return "\\text{arccoth}\\left(" + children.front() + "\\right)";
-    case ASECH:
-      return "\\text{arcsech}\\left(" + children.front() + "\\right)";
-    case ACSCH:
-      return "\\text{arccsch}\\left(" + children.front() + "\\right)";
-  }
+  // std::vector<std::string> children;
+  // if (recurse == true) {
+  //   for (auto& it : children_) {
+  //     children.push_back(it->Latex());
+  //   }
+  // } else {
+  //   children.push_back(std::string());
+  // }
+  // switch (func_) {
+  //   case LOG_2:
+  //     return "\\log_{2}\\left(" + children.front() + "\\right)";
+  //   case LOG:
+  //     if (children.size() == 1) {
+  //       return "\\log\\left(" + children.front() + "\\right)";
+  //     } else {
+  //       return "\\log_{" + children.front() + "}\\left(" + children.back() +
+  //              "\\right)";
+  //     }
+  //   case LOG_10:
+  //     return "\\log_{10}\\left(" + children.front() + "\\right)";
+  //   case SIN:
+  //     return "\\sin\\left(" + children.front() + "\\right)";
+  //   case COS:
+  //     return "\\cos\\left(" + children.front() + "\\right)";
+  //   case TAN:
+  //     return "\\tan\\left(" + children.front() + "\\right)";
+  //   case CSC:
+  //     return "\\csc\\left(" + children.front() + "\\right)";
+  //   case SEC:
+  //     return "\\sec\\left(" + children.front() + "\\right)";
+  //   case COT:
+  //     return "\\cot\\left(" + children.front() + "\\right)";
+  //   case ASIN:
+  //     return "\\arcsin\\left(" + children.front() + "\\right)";
+  //   case ACOS:
+  //     return "\\arccos\\left(" + children.front() + "\\right)";
+  //   case ATAN:
+  //     return "\\arctan\\left(" + children.front() + "\\right)";
+  //   case ACSC:
+  //     return "\\text{arccsc}\\left(" + children.front() + "\\right)";
+  //   case ASEC:
+  //     return "\\text{arcsec}\\left(" + children.front() + "\\right)";
+  //   case ACOT:
+  //     return "\\text{arccot}\\left(" + children.front() + "\\right)";
+  //   case SINH:
+  //     return "\\sinh\\left(" + children.front() + "\\right)";
+  //   case COSH:
+  //     return "\\cosh\\left(" + children.front() + "\\right)";
+  //   case TANH:
+  //     return "\\tanh\\left(" + children.front() + "\\right)";
+  //   case COTH:
+  //     return "\\text{coth}\\left(" + children.front() + "\\right)";
+  //   case SECH:
+  //     return "\\text{sech}\\left(" + children.front() + "\\right)";
+  //   case CSCH:
+  //     return "\\text{csch}\\left(" + children.front() + "\\right)";
+  //   case ASINH:
+  //     return "\\text{arcsinh}\\left(" + children.front() + "\\right)";
+  //   case ACOSH:
+  //     return "\\text{arccosh}\\left(" + children.front() + "\\right)";
+  //   case ATANH:
+  //     return "\\text{arctanh}\\left(" + children.front() + "\\right)";
+  //   case ACOTH:
+  //     return "\\text{arccoth}\\left(" + children.front() + "\\right)";
+  //   case ASECH:
+  //     return "\\text{arcsech}\\left(" + children.front() + "\\right)";
+  //   case ACSCH:
+  //     return "\\text{arccsch}\\left(" + children.front() + "\\right)";
+  // }
   return std::string();
-}
-
-std::string radix::Function::Tree(std::size_t indent) const {
-  std::string ret = "Exp[Function[Standard]](" + Latex(false) + ")";
-  std::string rep = "\u2502" + std::string(indent, ' ');
-  std::string bar;
-  for (std::size_t i = 0; i < indent; i++) {
-    bar += "\u2500";
-  }
-  if (children_.size() != 0) {
-    ret += "\n";
-  }
-  for (auto it = children_.begin(); it != children_.end(); ++it) {
-    if (it != children_.end() - 1) {
-      ret += "\u251c" + bar;
-    } else {
-      ret += "\u2514" + bar;
-      rep = std::string(indent + 1, ' ');
-    }
-    std::string sub = (*it)->Tree(indent);
-    size_t pos = 0;
-    while ((pos = sub.find('\n', pos)) != std::string::npos) {
-      sub.insert(++pos, rep);
-      pos += rep.length();
-    }
-    ret += sub;
-    if (it != children_.end() - 1) {
-      ret += "\n";
-    }
-  }
-  return ret;
 }
 
 radix::Function::operator std::shared_ptr<radix::FunctionBase>() {
   return std::dynamic_pointer_cast<radix::FunctionBase>(
       std::make_shared<Function>(*this));
 }
-radix::Function::operator std::shared_ptr<radix::Expression>() {
-  return std::dynamic_pointer_cast<radix::Expression>(
+radix::Function::operator std::shared_ptr<radix::ExpressionBase>() {
+  return std::dynamic_pointer_cast<radix::ExpressionBase>(
       std::make_shared<Function>(*this));
 }
