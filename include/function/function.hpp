@@ -47,6 +47,7 @@ class Function : public FunctionBase {
 
   virtual std::shared_ptr<ExpressionBase> eval();
 
+  virtual std::string Unicode(bool recurse = true) const;
   virtual std::string Latex(bool recurse = true) const;
   // virtual std::string Tree(std::size_t indent = 2) const;
 
@@ -54,6 +55,7 @@ class Function : public FunctionBase {
   operator std::shared_ptr<ExpressionBase>();
 
   FunctionNames func_;
+  std::size_t nargs_;
 };
 }  // namespace radix
 

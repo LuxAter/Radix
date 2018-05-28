@@ -39,8 +39,8 @@ radix::Operator::Operator(const Operator& copy)
 radix::Operator::~Operator() {}
 
 std::string radix::Operator::Latex(bool recurse) const {
-  if (recurse){
-    switch(op_){
+  if (recurse) {
+    switch (op_) {
       case ADD:
         return "$0+$1";
       case SUB:
@@ -56,8 +56,8 @@ std::string radix::Operator::Latex(bool recurse) const {
       case FAC:
         return "$0!";
     }
-  }else{
-    switch(op_){
+  } else {
+    switch (op_) {
       case ADD:
         return "+";
       case SUB:
@@ -96,6 +96,10 @@ void radix::Operator::ParseChar(char op) {
       break;
     }
     case '*': {
+      op_ = MUL;
+      break;
+    }
+    case '&': {
       op_ = MUL;
       break;
     }

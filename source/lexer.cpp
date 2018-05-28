@@ -26,33 +26,45 @@ estl::tree::Tree<std::shared_ptr<radix::ExpressionBase>> radix::Lexer::Parse(std
   std::queue<std::pair<std::string, TokenType>> token_queue =
       GetTokenQueue(exp);
   std::stack<estl::tree::Tree<std::shared_ptr<ExpressionBase>>> tree_stack;
+  std::stack<estl::tree::Tree<std::string>> string_stack;
   while (token_queue.size() != 0) {
     std::pair<std::string, TokenType> token = token_queue.front();
     if (token.second == NUMERIC) {
       tree_stack.push(
           estl::tree::Tree<std::shared_ptr<ExpressionBase>>(Long(token.first)));
+      string_stack.push(estl::tree::Tree<std::string>(token.first));
     } else if (token.second == VARIABLE) {
       tree_stack.push(estl::tree::Tree<std::shared_ptr<ExpressionBase>>(
           Variable(token.first)));
+      string_stack.push(estl::tree::Tree<std::string>(token.first));
     } else if (token.second == FUNCTION) {
       estl::tree::Tree<std::shared_ptr<ExpressionBase>> func(
           Function(token.first));
+      estl::tree::Tree<std::string> sfunc(token.first);
       for (int i = 0; i < functions_[token.first][1]; ++i) {
         func.prepend(tree_stack.top());
         tree_stack.pop();
+        sfunc.prepend(string_stack.top());
+        string_stack.pop();
       }
       tree_stack.push(func);
+      string_stack.push(sfunc);
     } else if (token.second == OPERATOR) {
       estl::tree::Tree<std::shared_ptr<ExpressionBase>> op(
           Operator(token.first));
+      estl::tree::Tree<std::string> sop(token.first);
       for (int i = 0; i < operators_[token.first][1]; ++i) {
         op.prepend(tree_stack.top());
         tree_stack.pop();
+        sop.prepend(string_stack.top());
+        string_stack.pop();
       }
       tree_stack.push(op);
+      string_stack.push(sop);
     }
     token_queue.pop();
   }
+  std::cout << string_stack.top() << "\n<<\n";
   return tree_stack.top();
 }
 
@@ -75,7 +87,7 @@ radix::Lexer::GetTokenQueue(std::string exp) {
     } else if (token.second == OPERATOR) {
       while (operator_stack.size() != 0 &&
              operator_stack.top().second != OPEN_PAREN &&
-             (operator_stack.top().second != FUNCTION ||
+             (operator_stack.top().second == FUNCTION ||
               operators_[operator_stack.top().first][0] >
                   operators_[token.first][0] ||
               (operators_[operator_stack.top().first][0] ==
@@ -166,7 +178,7 @@ std::pair<std::string, radix::Lexer::TokenType> radix::Lexer::GetNextToken() {
       } else if (IsMatch(std::string(1, current))) {
         break;
       } else if (is_num && !IsDigit(current)) {
-        expression_.insert(expression_.begin() + pos_ + local, '*');
+        expression_.insert(expression_.begin() + pos_ + local, '&');
         break;
       } else if (current == ',') {
         break;
@@ -196,6 +208,7 @@ void radix::Lexer::LoadOperators() {
   operators_["+"] = {2, 2, 1};
   operators_["-"] = {2, 2, 1};
   operators_["*"] = {3, 2, 1};
+  operators_["&"] = {5, 2, 1};
   operators_["/"] = {3, 2, 1};
   operators_["^"] = {4, 2, 0};
   operators_["!"] = {4, 1, 0};
