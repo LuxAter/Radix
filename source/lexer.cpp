@@ -22,7 +22,8 @@ using namespace estl::logger;
 radix::Lexer::Lexer() {}
 radix::Lexer::~Lexer() {}
 
-estl::tree::Tree<std::shared_ptr<radix::ExpressionBase>> radix::Lexer::Parse(std::string exp) {
+estl::tree::Tree<std::shared_ptr<radix::ExpressionBase>> radix::Lexer::Parse(
+    std::string exp) {
   std::queue<std::pair<std::string, TokenType>> token_queue =
       GetTokenQueue(exp);
   std::stack<estl::tree::Tree<std::shared_ptr<ExpressionBase>>> tree_stack;
@@ -253,6 +254,13 @@ void radix::Lexer::LoadFunctions() {
   functions_["pow"] = {-1, 2};
   functions_["max"] = {-1, 2};
   functions_["min"] = {-1, 2};
+}
+
+void radix::Lexer::AddOperator(std::string op, int prec, int nargs){
+  operators_[op] = {prec, nargs, 1};
+}
+void radix::Lexer::AddFunction(std::string func, int nargs){
+  functions_[func] = {-1, nargs};
 }
 
 bool radix::Lexer::IsSpace(char ch) { return (ch == 32); }

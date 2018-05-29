@@ -8,8 +8,8 @@
 #include "value/long.hpp"
 #include "value/variable.hpp"
 
-radix::Value::Value() : ExpressionBase(VALUE), type_(VARIABLE) {}
-radix::Value::Value(ValueType type) : ExpressionBase(VALUE), type_(type) {}
+radix::Value::Value() : ExpressionBase(VALUE) {}
+radix::Value::Value(ExpressionType type) : ExpressionBase(type){}
 radix::Value::~Value() {}
 
 std::string radix::Value::Unicode(bool recurse) const {return std::string();}

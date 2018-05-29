@@ -9,10 +9,10 @@
 #include "function/function_base.hpp"
 #include "value/value.hpp"
 
-radix::Function::Function() : FunctionBase(STANDARD), func_(NONE) {}
+radix::Function::Function() : FunctionBase(FUNCTION), func_(NONE) {}
 radix::Function::Function(FunctionNames func)
-    : FunctionBase(STANDARD), func_(func) {}
-radix::Function::Function(std::string func) : FunctionBase(STANDARD) {
+    : FunctionBase(FUNCTION), func_(func) {}
+radix::Function::Function(std::string func) : FunctionBase(FUNCTION) {
   std::transform(func.begin(), func.end(), func.begin(), ::tolower);
   if (func == "log2") {
     func_ = LOG_2;
@@ -98,7 +98,7 @@ radix::Function::Function(std::string func) : FunctionBase(STANDARD) {
   }
 }
 radix::Function::Function(const Function& copy)
-    : FunctionBase(STANDARD), func_(copy.func_) {}
+    : FunctionBase(FUNCTION), func_(copy.func_) {}
 
 radix::Function::~Function() {}
 

@@ -7,11 +7,10 @@
 #include <ostream>
 
 namespace radix {
-enum FunctionType { OPERATOR = 0, STANDARD = 1, USER = 2 };
 class FunctionBase : public ExpressionBase {
  public:
   FunctionBase();
-  FunctionBase(FunctionType type);
+  FunctionBase(ExpressionType type);
   virtual ~FunctionBase();
 
   virtual std::shared_ptr<ExpressionBase> eval();
@@ -19,8 +18,6 @@ class FunctionBase : public ExpressionBase {
   virtual std::string Unicode(bool recurse = true) const;
   virtual std::string Latex(bool recurse = true) const;
   // virtual std::string Tree(std::size_t indent = 2) const;
-
-  FunctionType type_;
 };
 
 std::ostream& operator<<(std::ostream& out,

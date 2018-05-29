@@ -36,6 +36,9 @@ class Lexer {
   void LoadOperators();
   void LoadFunctions();
 
+  void AddOperator(std::string op, int prec, int nargs);
+  void AddFunction(std::string func, int nargs);
+
  private:
   bool IsSpace(char ch);
   bool IsDigit(char ch);

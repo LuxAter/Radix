@@ -1,11 +1,11 @@
 #ifndef RAdIX_EXPRESSION_BASE_HPP_
 #define RAdIX_EXPRESSION_BASE_HPP_
 
-#include <string>
 #include <memory>
+#include <string>
 
 namespace radix {
-enum ExpressionType { NONE = 0, VALUE = 1, FUNCTION = 2 };
+enum ExpressionType { NONE, VALUE, VARIABLE, INT, FUNCTION, OPERATOR };
 
 class ExpressionBase {
  public:

@@ -1,5 +1,6 @@
 #include "expression.hpp"
 #include "expression_base.hpp"
+#include "eval.hpp"
 #include "value/value.hpp"
 #include "value/variable.hpp"
 #include "value/long.hpp"

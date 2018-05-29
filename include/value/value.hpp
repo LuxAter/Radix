@@ -7,7 +7,6 @@
 #include <ostream>
 
 namespace radix {
-enum ValueType { VARIABLE = 0, INT = 1 };
 class Value : public ExpressionBase {
  public:
   enum ValueOperator {
@@ -24,13 +23,11 @@ class Value : public ExpressionBase {
     GEQ = 10
   };
   Value();
-  Value(ValueType type);
+  Value(ExpressionType type);
   virtual ~Value();
 
   virtual std::string Unicode(bool recurse = true) const;
   virtual std::string Latex(bool recurse = true) const;
-
-  ValueType type_;
 };
 
 std::ostream& operator<<(std::ostream& out, const std::shared_ptr<Value>& lhs);
