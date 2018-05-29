@@ -4,6 +4,7 @@
 #include <memory>
 #include <ostream>
 #include <string>
+#include <vector>
 
 #include "function/function_base.hpp"
 #include "value/value.hpp"
@@ -18,120 +19,96 @@ radix::Operator::Operator(std::string op) : FunctionBase(OPERATOR) {
     std::transform(op.begin(), op.end(), op.begin(), ::tolower);
     if (op == "add") {
       op_ = ADD;
+      nargs_ = 2;
     } else if (op == "sub") {
       op_ = SUB;
+      nargs_ = 2;
     } else if (op == "mul") {
       op_ = MUL;
+      nargs_ = 2;
     } else if (op == "div") {
       op_ = DIV;
+      nargs_ = 2;
     } else if (op == "mod") {
       op_ = MOD;
+      nargs_ = 2;
     } else if (op == "pow") {
       op_ = POW;
+      nargs_ = 2;
     } else if (op == "fac") {
       op_ = FAC;
+      nargs_ = 1;
     }
   }
 }
 radix::Operator::Operator(const Operator& copy)
-    : FunctionBase(OPERATOR), op_(copy.op_) {}
+    : FunctionBase(OPERATOR), op_(copy.op_), nargs_(copy.nargs_) {}
 
 radix::Operator::~Operator() {}
 
-std::shared_ptr<radix::Expression> radix::Operator::eval() {
-  switch (op_) {
-    case ADD:
-      return std::dynamic_pointer_cast<Expression>(
-          std::dynamic_pointer_cast<Value>(children_.front()) +
-          std::dynamic_pointer_cast<Value>(children_.back()));
-    case SUB:
-      return std::dynamic_pointer_cast<Expression>(
-          std::dynamic_pointer_cast<Value>(children_.front()) -
-          std::dynamic_pointer_cast<Value>(children_.back()));
-    case MUL:
-      return std::dynamic_pointer_cast<Expression>(
-          std::dynamic_pointer_cast<Value>(children_.front()) *
-          std::dynamic_pointer_cast<Value>(children_.back()));
-    case DIV:
-      return std::dynamic_pointer_cast<Expression>(
-          std::dynamic_pointer_cast<Value>(children_.front()) /
-          std::dynamic_pointer_cast<Value>(children_.back()));
-    case MOD:
-      return std::dynamic_pointer_cast<Expression>(
-          std::dynamic_pointer_cast<Value>(children_.front()) %
-          std::dynamic_pointer_cast<Value>(children_.back()));
-    case POW:
-      return std::dynamic_pointer_cast<Expression>(
-          pow(std::dynamic_pointer_cast<Value>(children_.front()),
-              std::dynamic_pointer_cast<Value>(children_.back())));
-  }
-  return std::make_shared<Expression>(Expression());
-}
-
-std::string radix::Operator::Latex(bool recurse) const {
-  std::vector<std::string> children;
-  if (recurse == true) {
-    for (auto& it : children_) {
-      children.push_back(it->Latex());
+std::string radix::Operator::Unicode(bool recurse) const {
+  std::vector<std::string> args;
+  if (recurse) {
+    for (std::size_t i = 0; i < nargs_ + 1; i++) {
+      args.push_back("$" + std::to_string(i));
     }
   } else {
-    children.push_back(std::string());
+    for (std::size_t i = 0; i < nargs_ + 1; i++) {
+      args.push_back("");
+    }
   }
-  switch (op_) {
+  switch(op_){
     case ADD:
-      return children.front() + "+" + children.back();
+      return args.at(0) + "+" + args.at(1);
     case SUB:
-      return children.front() + "-" + children.back();
+      return args.at(0) + "-" + args.at(1);
     case MUL:
-      return children.front() + "\\cdot" + children.back();
+      return args.at(0) + "*" + args.at(1);
     case DIV:
-      return "\\frac{" + children.front() + "}{" + children.back() + "}";
+      return args.at(0) + "/" + args.at(1);
     case MOD:
-      return children.front() + "\\bmod" + children.back();
+      return args.at(0) + "%" + args.at(1);
     case POW:
-      return "{" + children.front() + "}^{" + children.back() + "}";
+      return args.at(0) + "^" + args.at(1);
     case FAC:
-      return children.front() + "!";
+      return args.at(0) + "!";
+  }
+}
+std::string radix::Operator::Latex(bool recurse) const {
+  std::vector<std::string> args;
+  if (recurse) {
+    for (std::size_t i = 0; i < nargs_ + 1; i++) {
+      args.push_back("$" + std::to_string(i));
+    }
+  } else {
+    for (std::size_t i = 0; i < nargs_ + 1; i++) {
+      args.push_back("");
+    }
+  }
+  switch(op_){
+    case ADD:
+      return args.at(0) + "+" + args.at(1);
+    case SUB:
+      return args.at(0) + "-" + args.at(1);
+    case MUL:
+      return args.at(0) + " \\cdot " + args.at(1);
+    case DIV:
+      return "\\frac{" + args.at(0) + "}{" + args.at(1) + "}";
+    case MOD:
+      return args.at(0) + "%" + args.at(1);
+    case POW:
+      return "{" + args.at(0) + "}^{" + args.at(1) + "}";
+    case FAC:
+      return args.at(0) + "!";
   }
   return std::string();
 }
-std::string radix::Operator::Tree(std::size_t indent) const {
-  std::string ret = "Exp[Function[Operator]](" + Latex(false) + ")";
-  std::string rep = "\u2502" + std::string(indent, ' ');
-  std::string bar;
-  for (std::size_t i = 0; i < indent; i++) {
-    bar += "\u2500";
-  }
-  if (children_.size() != 0) {
-    ret += "\n";
-  }
-  for (auto it = children_.begin(); it != children_.end(); ++it) {
-    if (it != children_.end() - 1) {
-      ret += "\u251c" + bar;
-    } else {
-      ret += "\u2514" + bar;
-      rep = std::string(indent + 1, ' ');
-    }
-    std::string sub = (*it)->Tree(indent);
-    size_t pos = 0;
-    while ((pos = sub.find('\n', pos)) != std::string::npos) {
-      sub.insert(++pos, rep);
-      pos += rep.length();
-    }
-    ret += sub;
-    if (it != children_.end() - 1) {
-      ret += "\n";
-    }
-  }
-  return ret;
-}
-
 radix::Operator::operator std::shared_ptr<radix::FunctionBase>() {
   return std::dynamic_pointer_cast<radix::FunctionBase>(
       std::make_shared<Operator>(*this));
 }
-radix::Operator::operator std::shared_ptr<radix::Expression>() {
-  return std::dynamic_pointer_cast<radix::Expression>(
+radix::Operator::operator std::shared_ptr<radix::ExpressionBase>() {
+  return std::dynamic_pointer_cast<radix::ExpressionBase>(
       std::make_shared<Operator>(*this));
 }
 
@@ -139,30 +116,42 @@ void radix::Operator::ParseChar(char op) {
   switch (op) {
     case '+': {
       op_ = ADD;
+      nargs_ = 2;
       break;
     }
     case '-': {
       op_ = SUB;
+      nargs_ = 2;
       break;
     }
     case '*': {
       op_ = MUL;
+      nargs_ = 2;
+      break;
+    }
+    case '&': {
+      op_ = MUL;
+      nargs_ = 2;
       break;
     }
     case '/': {
       op_ = DIV;
+      nargs_ = 2;
       break;
     }
     case '%': {
       op_ = MOD;
+      nargs_ = 2;
       break;
     }
     case '^': {
       op_ = POW;
+      nargs_ = 2;
       break;
     }
     case '!': {
       op_ = FAC;
+      nargs_ = 1;
       break;
     }
   };

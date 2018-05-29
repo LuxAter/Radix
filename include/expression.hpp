@@ -3,53 +3,27 @@
 
 #include <memory>
 #include <string>
-#include <vector>
+
+#include <tree.hpp>
+
+#include "expression_base.hpp"
+#include "lexer.hpp"
 
 namespace radix {
-enum ExpressionType { VALUE = 1, FUNCTION = 2 };
+typedef estl::tree::Tree<std::shared_ptr<ExpressionBase>> Expression;
 
-class Expression {
- public:
-  Expression();
-  Expression(const ExpressionType& type);
-  Expression(const Expression& copy);
-  virtual ~Expression();
+std::string PrintAST(const Expression exp);
+std::string PrintAST(const Expression* exp);
 
-  void SetVariable(std::string ref, std::shared_ptr<Expression> val);
-  void SetVariable(std::shared_ptr<Expression> val);
-  // std::shared_ptr<Expression> Eval() const;
+std::string PrintDot(const Expression exp);
+std::string PrintDot(const Expression* exp, std::vector<std::string>& nodes,
+                     std::string parent = std::string());
 
-  virtual std::string Latex(bool recurse = true) const;
-  virtual std::string Tree(std::size_t indent = 2) const;
+std::string Latex(const Expression exp);
+std::string Latex(const Expression* exp);
 
-  void insert(std::size_t pos, std::shared_ptr<Expression> child);
-  std::shared_ptr<Expression>& at(std::size_t pos);
-  void append(std::shared_ptr<Expression> child);
-  void prepend(std::shared_ptr<Expression> child);
-  void clear();
-  std::vector<std::shared_ptr<Expression>>::iterator begin();
-  std::vector<std::shared_ptr<Expression>>::iterator end();
-  std::shared_ptr<Expression>& front();
-  std::shared_ptr<Expression>& back();
-
-  bool IsLeaf() const;
-  bool HasOnlyLeafs() const;
-
-  ExpressionType type_;
-  std::shared_ptr<Expression> next_, prev_;
-  std::vector<std::shared_ptr<Expression>> children_;
-
- private:
-};
-
-typedef std::shared_ptr<Expression> Exp;
-std::shared_ptr<Expression> GenerateExpression(std::string_view str);
-std::shared_ptr<Expression> CopyExpression(std::shared_ptr<Expression> exp);
-std::shared_ptr<Expression> CopyExpression(const Expression* exp);
-
-std::shared_ptr<Expression> Eval(std::shared_ptr<Expression> exp,
-                                 std::vector<std::shared_ptr<Expression>> vals = {});
-std::shared_ptr<Expression> Eval_(std::shared_ptr<Expression> exp);
+std::string Unicode(const Expression exp);
+std::string Unicode(const Expression* exp);
 }  // namespace radix
 
 #endif  // RADIX_EXPRESSION_HPP_

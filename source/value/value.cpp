@@ -3,46 +3,17 @@
 #include <memory>
 #include <ostream>
 
-#include "expression.hpp"
+#include "expression_base.hpp"
 
 #include "value/long.hpp"
 #include "value/variable.hpp"
 
-radix::Value::Value() : Expression(VALUE), type_(VARIABLE) {}
-radix::Value::Value(ValueType type) : Expression(VALUE), type_(type) {}
+radix::Value::Value() : ExpressionBase(VALUE) {}
+radix::Value::Value(ExpressionType type) : ExpressionBase(type){}
 radix::Value::~Value() {}
 
+std::string radix::Value::Unicode(bool recurse) const {return std::string();}
 std::string radix::Value::Latex(bool recurse) const { return std::string(); }
-std::string radix::Value::Tree(std::size_t indent) const {
-  std::string ret = "Exp[Value[NULL]]()";
-  std::string rep = "\u2502" + std::string(indent, ' ');
-  std::string bar;
-  for (std::size_t i = 0; i < indent; i++) {
-    bar += "\u2500";
-  }
-  if (children_.size() != 0) {
-    ret += "\n";
-  }
-  for (auto it = children_.begin(); it != children_.end(); ++it) {
-    if (it != children_.end() - 1) {
-      ret += "\u251c" + bar;
-    } else {
-      ret += "\u2514" + bar;
-      rep = std::string(indent + 1, ' ');
-    }
-    std::string sub = (*it)->Tree(indent);
-    size_t pos = 0;
-    while ((pos = sub.find('\n', pos)) != std::string::npos) {
-      sub.insert(++pos, rep);
-      pos += rep.length();
-    }
-    ret += sub;
-    if (it != children_.end() - 1) {
-      ret += "\n";
-    }
-  }
-  return ret;
-}
 
 std::ostream& radix::operator<<(std::ostream& out,
                                 const std::shared_ptr<Value>& lhs) {
@@ -389,8 +360,8 @@ std::shared_ptr<radix::Value> radix::sin(const std::shared_ptr<Value>& arg) {
 // std::shared_ptr<Value>& arg); std::shared_ptr<radix::Value>
 // radix::round(const std::shared_ptr<Value>& arg);
 
-std::shared_ptr<radix::Expression> radix::CopyValue(
-    std::shared_ptr<Expression> exp) {
+std::shared_ptr<radix::ExpressionBase> radix::CopyValue(
+    std::shared_ptr<ExpressionBase> exp) {
   std::shared_ptr<Value> val = std::dynamic_pointer_cast<Value>(exp);
   if (val->type_ == VARIABLE) {
     return Variable(*std::dynamic_pointer_cast<Variable>(val));
@@ -399,7 +370,7 @@ std::shared_ptr<radix::Expression> radix::CopyValue(
   }
   return NULL;
 }
-std::shared_ptr<radix::Expression> radix::CopyValue(const Expression* exp) {
+std::shared_ptr<radix::ExpressionBase> radix::CopyValue(const ExpressionBase* exp) {
   const Value* val = dynamic_cast<const Value*>(exp);
   if (val->type_ == VARIABLE) {
     return Variable(*dynamic_cast<const Variable*>(val));

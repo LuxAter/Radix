@@ -15,7 +15,7 @@ export COMPILER=clang++
 export CXXFLAGS= -MMD -std=c++2a -w -c
 
 export LINK= -lmpfr -lgmp
-export INCLUDE= -I$(BASE_PATH)/$(EXTERNAL_DIR)/estl
+export INCLUDE= -I$(BASE_PATH)/$(EXTERNAL_DIR)/estl/estl
 export TYPE= TYPE(lib/exe)
 
 export INSTALL_PATH=/usr/local

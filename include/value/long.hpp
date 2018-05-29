@@ -77,8 +77,9 @@ class Long : public Value {
 
   std::string GetString(int prec = -1, bool left=false) const;
 
+  virtual std::string Unicode(bool recurse = true) const;
   virtual std::string Latex(bool recurse = true) const;
-  virtual std::string Tree(std::size_t indent = 2) const;
+  // virtual std::string Tree(std::size_t indent = 2) const;
 
   Long& operator=(int val);
   Long& operator=(long int val);
@@ -99,7 +100,7 @@ class Long : public Value {
   Long& operator/=(const Long& rhs);
 
   operator std::shared_ptr<Value>();
-  operator std::shared_ptr<Expression>();
+  operator std::shared_ptr<ExpressionBase>();
 
   mpfr_t value_;
 
