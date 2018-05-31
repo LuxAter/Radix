@@ -11,7 +11,10 @@
 #include "lexer.hpp"
 
 namespace radix {
-  Expression Eval(Expression tree, std::map<std::string, std::shared_ptr<ExpressionBase>> args);
+  Expression Eval(Expression tree, std::map<std::string, Expression> args);
+  void Eval(Expression &tree);
+  Expression EvalOp(Expression tree);
+  Expression SetVariables(Expression tree, std::map<std::string, Expression> args);
 } // namespace radix
 
 #endif  // RADIX_EVAL_HPP_

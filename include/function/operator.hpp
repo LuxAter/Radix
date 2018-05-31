@@ -9,16 +9,16 @@
 namespace radix {
 class Operator : public FunctionBase {
  public:
-enum OperatorOp {
-  NONE = 0,
-  ADD = 1,
-  SUB = 2,
-  MUL = 3,
-  DIV = 4,
-  MOD = 5,
-  POW = 7,
-  FAC = 8
-};
+  enum OperatorOp {
+    NONE = 0,
+    ADD = 1,
+    SUB = 2,
+    MUL = 3,
+    DIV = 4,
+    MOD = 5,
+    POW = 7,
+    FAC = 8
+  };
   Operator();
   Operator(OperatorOp op);
   Operator(char op);
@@ -28,7 +28,8 @@ enum OperatorOp {
 
   virtual ~Operator();
 
-  // virtual std::shared_ptr<ExpressionBase> eval();
+  virtual std::shared_ptr<ExpressionBase> Eval(
+      std::shared_ptr<ExpressionBase> a, std::shared_ptr<ExpressionBase> b);
 
   virtual std::string Unicode(bool recurse = true) const;
   virtual std::string Latex(bool recurse = true) const;
@@ -39,6 +40,7 @@ enum OperatorOp {
 
   OperatorOp op_;
   std::size_t nargs_;
+
  private:
   void ParseChar(char op);
 };

@@ -14,14 +14,16 @@ int main(int argc, char const* argv[]) {
   std::string expression;
   std::cout << "Enter Expression:";
   std::getline(std::cin, expression);
-
   Lexer lex;
   lex.LoadOperators();
   lex.LoadFunctions();
   Expression ex = lex.Parse(expression);
   std::cout << Unicode(ex) << "\n";
-  Expression ret = Eval(ex, {{"x", Long(17)}});
-  std::cout << Unicode(ex) << "\n";
+  std::cout << "Enter X:";
+  std::getline(std::cin, expression);
+  Expression x = lex.Parse(expression);
+  Expression ret = Eval(ex, {{"x", x}});
+  std::cout << PrintAST(ex) << "\n";
   std::cout << Unicode(ret) << "\n";
   return 0;
 }

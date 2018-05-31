@@ -7,7 +7,11 @@
 #include <vector>
 
 #include "function/function_base.hpp"
+#include "value/long.hpp"
 #include "value/value.hpp"
+
+
+#include <iostream>
 
 radix::Operator::Operator() : FunctionBase(OPERATOR), op_(NONE) {}
 radix::Operator::Operator(OperatorOp op) : FunctionBase(OPERATOR), op_(op) {}
@@ -46,6 +50,30 @@ radix::Operator::Operator(const Operator& copy)
 
 radix::Operator::~Operator() {}
 
+std::shared_ptr<radix::ExpressionBase> radix::Operator::Eval(
+    std::shared_ptr<ExpressionBase> a, std::shared_ptr<ExpressionBase> b) {
+  std::shared_ptr<radix::Value> lhs =
+      std::dynamic_pointer_cast<radix::Value>(a);
+  std::shared_ptr<radix::Value> rhs =
+      std::dynamic_pointer_cast<radix::Value>(b);
+  switch (op_) {
+    case ADD:
+      return (lhs + rhs);
+    case SUB:
+      return (lhs - rhs);
+    case MUL:
+      return (lhs * rhs);
+    case DIV:
+      return (lhs / rhs);
+    case MOD:
+      return (lhs % rhs);
+    case POW:
+      return pow(lhs, rhs);
+  }
+
+  return nullptr;
+}
+
 std::string radix::Operator::Unicode(bool recurse) const {
   std::vector<std::string> args;
   if (recurse) {
@@ -57,7 +85,7 @@ std::string radix::Operator::Unicode(bool recurse) const {
       args.push_back("");
     }
   }
-  switch(op_){
+  switch (op_) {
     case ADD:
       return args.at(0) + "+" + args.at(1);
     case SUB:
@@ -85,7 +113,7 @@ std::string radix::Operator::Latex(bool recurse) const {
       args.push_back("");
     }
   }
-  switch(op_){
+  switch (op_) {
     case ADD:
       return args.at(0) + "+" + args.at(1);
     case SUB:
