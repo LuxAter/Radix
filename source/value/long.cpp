@@ -10,6 +10,8 @@
 
 #include "value/value.hpp"
 
+#include <iostream>
+
 radix::Long::Long() : Value(INT) {
   SetPrecision(sizeof(int) * 8);
   mpfr_set_si(value_, 0.0, MPFR_RNDD);
@@ -52,6 +54,7 @@ radix::Long::Long(long double val) : Value(INT) {
 }
 radix::Long::Long(std::string val) : Value(INT) {
   SetPrecision(val.size() * sizeof(char) * 8);
+  std::cout << val.size() << ":" << sizeof(char) << ":" << 8 << "<<\n";
   mpfr_set_str(value_, val.c_str(), 10, MPFR_RNDD);
 }
 radix::Long::Long(const char* val) : Value(INT) {
@@ -103,7 +106,7 @@ radix::Long::Long(const char* val, std::size_t prec) : Value(INT) {
   mpfr_set_str(value_, val, 10, MPFR_RNDD);
 }
 
-radix::Long::Long(const Long& copy) : Value(INT) {
+radix::Long::Long(const Long& copy) : Value(INT), prec_(copy.prec_) {
   mpfr_init2(value_, mpfr_get_prec(copy.value_));
   mpfr_set(value_, copy.value_, MPFR_RNDD);
 }
@@ -145,6 +148,7 @@ void radix::Long::Data(mpfr_t& val) const { mpfr_set(val, value_, MPFR_RNDD); }
 std::size_t radix::Long::GetPrecision() const { return mpfr_get_prec(value_); }
 void radix::Long::SetPrecision(std::size_t bits) {
   mpfr_init2(value_, bits + 1);
+  prec_ = bits;
 }
 
 std::string radix::Long::GetString(int prec, bool left) const {
@@ -270,31 +274,31 @@ bool radix::operator>=(const Long& lhs, const Long& rhs) {
 
 radix::Long radix::operator+(const Long& lhs, const Long& rhs) {
   Long res;
-  res.SetPrecision(std::min(lhs.GetPrecision(), rhs.GetPrecision()));
+  res.SetPrecision(std::max(lhs.GetPrecision(), rhs.GetPrecision()));
   mpfr_add(res.value_, lhs.value_, rhs.value_, MPFR_RNDD);
   return res;
 }
 radix::Long radix::operator-(const Long& lhs, const Long& rhs) {
   Long res;
-  res.SetPrecision(std::min(lhs.GetPrecision(), rhs.GetPrecision()));
+  res.SetPrecision(std::max(lhs.GetPrecision(), rhs.GetPrecision()));
   mpfr_sub(res.value_, lhs.value_, rhs.value_, MPFR_RNDD);
   return res;
 }
 radix::Long radix::operator*(const Long& lhs, const Long& rhs) {
   Long res;
-  res.SetPrecision(std::min(lhs.GetPrecision(), rhs.GetPrecision()));
+  res.SetPrecision(std::max(lhs.GetPrecision(), rhs.GetPrecision()));
   mpfr_mul(res.value_, lhs.value_, rhs.value_, MPFR_RNDD);
   return res;
 }
 radix::Long radix::operator/(const Long& lhs, const Long& rhs) {
   Long res;
-  res.SetPrecision(std::min(lhs.GetPrecision(), rhs.GetPrecision()));
+  res.SetPrecision(std::max(lhs.GetPrecision(), rhs.GetPrecision()));
   mpfr_div(res.value_, lhs.value_, rhs.value_, MPFR_RNDD);
   return res;
 }
 radix::Long radix::operator%(const Long& lhs, const Long& rhs) {
   Long res;
-  res.SetPrecision(std::min(lhs.GetPrecision(), rhs.GetPrecision()));
+  res.SetPrecision(std::max(lhs.GetPrecision(), rhs.GetPrecision()));
   mpfr_fmod(res.value_, lhs.value_, rhs.value_, MPFR_RNDD);
   return res;
 }

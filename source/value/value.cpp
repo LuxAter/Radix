@@ -8,6 +8,17 @@
 #include "value/long.hpp"
 #include "value/variable.hpp"
 
+#define MONOFUNC(func)\
+std::shared_ptr<radix::Value> radix::func(const std::shared_ptr<Value>& arg){\
+  switch(arg->type_){\
+    case VARIABLE:\
+      return func(std::dynamic_pointer_cast<Variable>(arg)->GetVal());\
+    case INT:\
+      return ValueFunc<Long>(arg, func);\
+  }\
+  return arg;\
+}
+
 radix::Value::Value() : ExpressionBase(VALUE) {}
 radix::Value::Value(ExpressionType type) : ExpressionBase(type){}
 radix::Value::~Value() {}
@@ -300,50 +311,35 @@ std::shared_ptr<radix::Value> radix::pow(const std::shared_ptr<Value>& base,
 // std::shared_ptr<radix::Value> radix::hypot(const std::shared_ptr<Value>& x,
 //                                            const std::shared_ptr<Value>& y);
 //
-// // Trigonometric Functions
-// //
+
+// Trigonometric Functions
+//
 // ============================================================================
-std::shared_ptr<radix::Value> radix::sin(const std::shared_ptr<Value>& arg) {
-  switch (arg->type_) {
-    case VARIABLE:
-      return sin(std::dynamic_pointer_cast<Variable>(arg)->GetVal());
-    case INT:
-      return ValueFunc<Long>(arg, sin);
-  }
-  return arg;
-}
-// std::shared_ptr<radix::Value> radix::cos(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<radix::Value> radix::tan(const std::shared_ptr<Value>& arg);
+MONOFUNC(sin)
+MONOFUNC(cos)
+MONOFUNC(tan)
+MONOFUNC(sec)
+MONOFUNC(csc)
+MONOFUNC(cot)
+MONOFUNC(acos)
+MONOFUNC(asin)
+MONOFUNC(atan)
+
+// Hyperbolic Functions
 //
-// std::shared_ptr<radix::Value> radix::sec(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<radix::Value> radix::csc(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<radix::Value> radix::cot(const std::shared_ptr<Value>& arg);
-//
-// std::shared_ptr<radix::Value> radix::acos(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<radix::Value> radix::asin(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<radix::Value> radix::atan(const std::shared_ptr<Value>& arg);
-//
-// std::shared_ptr<radix::Value> radix::atan2(const std::shared_ptr<Value>& y,
-//                                            const std::shared_ptr<Value>& x);
-//
-// // Hyperbolic Functions
-// //
 // ============================================================================
-// std::shared_ptr<radix::Value> radix::sinh(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<radix::Value> radix::cosh(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<radix::Value> radix::tanh(const std::shared_ptr<Value>& arg);
+MONOFUNC(sinh)
+MONOFUNC(cosh)
+MONOFUNC(tanh)
+MONOFUNC(sech)
+MONOFUNC(csch)
+MONOFUNC(coth)
+MONOFUNC(acosh)
+MONOFUNC(asinh)
+MONOFUNC(atanh)
+
+// Error and Gamma Functions
 //
-// std::shared_ptr<radix::Value> radix::sech(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<radix::Value> radix::csch(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<radix::Value> radix::coth(const std::shared_ptr<Value>& arg);
-//
-// std::shared_ptr<radix::Value> radix::acosh(const std::shared_ptr<Value>&
-// arg); std::shared_ptr<radix::Value> radix::asinh(const
-// std::shared_ptr<Value>& arg); std::shared_ptr<radix::Value>
-// radix::atanh(const std::shared_ptr<Value>& arg);
-//
-// // Error and Gamma Functions
-// //
 // ============================================================================
 // std::shared_ptr<radix::Value> radix::erf(const std::shared_ptr<Value>& arg);
 // std::shared_ptr<radix::Value> radix::erfc(const std::shared_ptr<Value>& arg);

@@ -103,6 +103,7 @@ class Long : public Value {
   operator std::shared_ptr<ExpressionBase>();
 
   mpfr_t value_;
+  std::size_t prec_;
 
  private:
 };

@@ -1,5 +1,6 @@
 #include "eval.hpp"
 
+#include "function/function.hpp"
 #include "function/operator.hpp"
 #include "value/value.hpp"
 #include "value/variable.hpp"
@@ -20,12 +21,19 @@ void radix::Eval(Expression &tree){
   if(tree.node->type_ == OPERATOR){
     tree = EvalOp(tree);
     tree.clear();
+  }else if(tree.node->type_ == FUNCTION){
+    tree = EvalFunc(tree);
+    tree.clear();
   }
 }
 
 radix::Expression radix::EvalOp(Expression tree){
   std::shared_ptr<radix::Operator> op = std::dynamic_pointer_cast<radix::Operator>(tree.node);
   return Expression(op->Eval(*(++tree.begin()), *(--tree.end())));
+}
+radix::Expression radix::EvalFunc(Expression tree){
+  std::shared_ptr<radix::Function> func= std::dynamic_pointer_cast<radix::Function>(tree.node);
+  return Expression(func->Eval(*(++tree.begin())));
 }
 
 radix::Expression radix::SetVariables(Expression tree, std::map<std::string, Expression> args){

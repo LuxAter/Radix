@@ -14,6 +14,7 @@ namespace radix {
   Expression Eval(Expression tree, std::map<std::string, Expression> args);
   void Eval(Expression &tree);
   Expression EvalOp(Expression tree);
+  Expression EvalFunc(Expression tree);
   Expression SetVariables(Expression tree, std::map<std::string, Expression> args);
 } // namespace radix
 

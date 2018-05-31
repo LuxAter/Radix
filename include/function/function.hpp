@@ -45,7 +45,8 @@ class Function : public FunctionBase {
   Function(const Function& copy);
   virtual ~Function();
 
-  virtual std::shared_ptr<ExpressionBase> eval();
+  virtual std::shared_ptr<ExpressionBase> Eval(
+      std::shared_ptr<ExpressionBase> a);
 
   virtual std::string Unicode(bool recurse = true) const;
   virtual std::string Latex(bool recurse = true) const;

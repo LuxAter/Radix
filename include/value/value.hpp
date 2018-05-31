@@ -114,34 +114,34 @@ std::shared_ptr<Value> pow(const std::shared_ptr<Value>& base,
 // //
 // ============================================================================
 std::shared_ptr<Value> sin(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<Value> cos(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<Value> tan(const std::shared_ptr<Value>& arg);
+std::shared_ptr<Value> cos(const std::shared_ptr<Value>& arg);
+std::shared_ptr<Value> tan(const std::shared_ptr<Value>& arg);
 //
-// std::shared_ptr<Value> sec(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<Value> csc(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<Value> cot(const std::shared_ptr<Value>& arg);
+std::shared_ptr<Value> sec(const std::shared_ptr<Value>& arg);
+std::shared_ptr<Value> csc(const std::shared_ptr<Value>& arg);
+std::shared_ptr<Value> cot(const std::shared_ptr<Value>& arg);
 //
-// std::shared_ptr<Value> acos(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<Value> asin(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<Value> atan(const std::shared_ptr<Value>& arg);
+std::shared_ptr<Value> acos(const std::shared_ptr<Value>& arg);
+std::shared_ptr<Value> asin(const std::shared_ptr<Value>& arg);
+std::shared_ptr<Value> atan(const std::shared_ptr<Value>& arg);
 //
 // std::shared_ptr<Value> atan2(const std::shared_ptr<Value>& y,
 //                              const std::shared_ptr<Value>& x);
 //
-// // Hyperbolic Functions
-// //
+// Hyperbolic Functions
+//
 // ============================================================================
-// std::shared_ptr<Value> sinh(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<Value> cosh(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<Value> tanh(const std::shared_ptr<Value>& arg);
-//
-// std::shared_ptr<Value> sech(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<Value> csch(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<Value> coth(const std::shared_ptr<Value>& arg);
-//
-// std::shared_ptr<Value> acosh(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<Value> asinh(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<Value> atanh(const std::shared_ptr<Value>& arg);
+std::shared_ptr<Value> sinh(const std::shared_ptr<Value>& arg);
+std::shared_ptr<Value> cosh(const std::shared_ptr<Value>& arg);
+std::shared_ptr<Value> tanh(const std::shared_ptr<Value>& arg);
+
+std::shared_ptr<Value> sech(const std::shared_ptr<Value>& arg);
+std::shared_ptr<Value> csch(const std::shared_ptr<Value>& arg);
+std::shared_ptr<Value> coth(const std::shared_ptr<Value>& arg);
+
+std::shared_ptr<Value> acosh(const std::shared_ptr<Value>& arg);
+std::shared_ptr<Value> asinh(const std::shared_ptr<Value>& arg);
+std::shared_ptr<Value> atanh(const std::shared_ptr<Value>& arg);
 //
 // // Error and Gamma Functions
 // //

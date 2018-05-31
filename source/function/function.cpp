@@ -102,12 +102,32 @@ radix::Function::Function(const Function& copy)
 
 radix::Function::~Function() {}
 
-std::shared_ptr<radix::ExpressionBase> radix::Function::eval() {
-  // switch(func_){
-  //   case SIN:
-  //     return
-  //     std::dynamic_pointer_cast<ExpressionBase>(sin(std::dynamic_pointer_cast<Value>(children_.front())));
-  // }
+std::shared_ptr<radix::ExpressionBase> radix::Function::Eval(
+    std::shared_ptr<ExpressionBase> a){
+  std::shared_ptr<radix::Value> lhs =
+      std::dynamic_pointer_cast<radix::Value>(a);
+  switch(func_){
+    case SIN:
+      return sin(lhs);
+    case COS:
+      return cos(lhs);
+    case TAN:
+      return tan(lhs);
+    case CSC:
+      return csc(lhs);
+    case SEC:
+      return sec(lhs);
+    case COT:
+      return cot(lhs);
+    case ASIN:
+      return asin(lhs);
+    case ACOS:
+      return acos(lhs);
+    case ATAN:
+      return atan(lhs);
+
+  }
+  return nullptr;
 }
 
 std::string radix::Function::Unicode(bool recurse) const {
