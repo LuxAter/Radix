@@ -8,23 +8,46 @@
 #include "value/long.hpp"
 #include "value/variable.hpp"
 
-#define MONOFUNC(func)\
-std::shared_ptr<radix::Value> radix::func(const std::shared_ptr<Value>& arg){\
-  switch(arg->type_){\
-    case VARIABLE:\
-      return func(std::dynamic_pointer_cast<Variable>(arg)->GetVal());\
-    case INT:\
-      return ValueFunc<Long>(arg, func);\
-  }\
-  return arg;\
-}
+#define MONOFUNC(func)                                                   \
+  std::shared_ptr<radix::Value> radix::func(                             \
+      const std::shared_ptr<Value>& arg) {                               \
+    switch (arg->type_) {                                                \
+      case VARIABLE:                                                     \
+        return func(std::dynamic_pointer_cast<Variable>(arg)->GetVal()); \
+      case INT:                                                          \
+        return ValueFunc<Long>(arg, func);                               \
+      default:                                                           \
+        return arg;                                                      \
+    }                                                                    \
+  }
+
+#define DIFUNC(func)                                                          \
+  std::shared_ptr<radix::Value> radix::func(                                  \
+      const std::shared_ptr<Value>& lhs, const std::shared_ptr<Value>& rhs) { \
+    if (lhs->type_ == VARIABLE) {                                             \
+      return func(std::dynamic_pointer_cast<Variable>(lhs)->GetVal(), rhs);   \
+    } else if (rhs->type_ == VARIABLE) {                                      \
+      return func(lhs, std::dynamic_pointer_cast<Variable>(rhs)->GetVal());   \
+    }                                                                         \
+    switch (lhs->type_) {                                                     \
+      case INT:                                                               \
+        switch (lhs->type_) {                                                 \
+          case INT:                                                           \
+            return ValueFunc<Long>(lhs, rhs, func);                           \
+          default:                                                            \
+            return rhs;                                                       \
+        }                                                                     \
+      default:                                                                \
+        return lhs;                                                           \
+    }                                                                         \
+  }
 
 radix::Value::Value() : ExpressionBase(VALUE) {}
-radix::Value::Value(ExpressionType type) : ExpressionBase(type){}
+radix::Value::Value(ExpressionType type) : ExpressionBase(type) {}
 radix::Value::~Value() {}
 
-std::string radix::Value::Unicode(bool recurse) const {return std::string();}
-std::string radix::Value::Latex(bool recurse) const { return std::string(); }
+std::string radix::Value::Unicode(bool) const { return std::string(); }
+std::string radix::Value::Latex(bool) const { return std::string(); }
 
 std::ostream& radix::operator<<(std::ostream& out,
                                 const std::shared_ptr<Value>& lhs) {
@@ -41,6 +64,8 @@ std::ostream& radix::operator<<(std::ostream& out,
       out << *std::dynamic_pointer_cast<Long>(lhs);
       break;
     }
+    default:
+      break;
   };
   return out;
 }
@@ -119,6 +144,8 @@ std::shared_ptr<radix::Value> radix::ValueOperation(
         default: { return NULL; }
       }
     }
+    default:
+      return NULL;
   }
   return NULL;
 }
@@ -210,6 +237,8 @@ bool radix::ValueComparison(const std::shared_ptr<Value>& lhs,
         default: { return false; }
       }
     }
+    default:
+      return false;
   }
   return false;
 }
@@ -260,57 +289,32 @@ bool radix::operator>=(const std::shared_ptr<Value>& lhs,
   return ValueComparison(lhs, rhs, Value::GEQ);
 }
 
-// // Basic Operators
-// //
+// Basic Operators
+//
 // ============================================================================
-// std::shared_ptr<radix::Value> radix::abs(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<radix::Value> radix::fabs(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<radix::Value> radix::max(const std::shared_ptr<Value>& x,
-//                                          const std::shared_ptr<Value>& y);
-// std::shared_ptr<radix::Value> radix::min(const std::shared_ptr<Value>& x,
-//                                          const std::shared_ptr<Value>& y);
+MONOFUNC(abs)
+MONOFUNC(fabs)
+DIFUNC(min)
+DIFUNC(max)
+
+// Exponential Functions
 //
-// // Exponential Functions
-// //
 // ============================================================================
-// std::shared_ptr<radix::Value> radix::exp(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<radix::Value> radix::exp2(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<radix::Value> radix::exp10(const std::shared_ptr<Value>&
-// arg); std::shared_ptr<radix::Value> radix::expm1(const
-// std::shared_ptr<Value>& arg);
+MONOFUNC(exp)
+MONOFUNC(exp2)
+MONOFUNC(exp10)
+MONOFUNC(log)
+MONOFUNC(log2)
+MONOFUNC(log10)
+
+// Power Functions
 //
-// std::shared_ptr<radix::Value> radix::log(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<radix::Value> radix::log2(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<radix::Value> radix::log10(const std::shared_ptr<Value>&
-// arg); std::shared_ptr<radix::Value> radix::log1p(const
-// std::shared_ptr<Value>& arg);
-//
-// // Power Functions
-// //
 // ============================================================================
-std::shared_ptr<radix::Value> radix::pow(const std::shared_ptr<Value>& base,
-                                         const std::shared_ptr<Value>& exp) {
-  if (base->type_ == VARIABLE) {
-    return pow(std::dynamic_pointer_cast<Variable>(base)->GetVal(), exp);
-  } else if (exp->type_ == VARIABLE) {
-    return pow(base, std::dynamic_pointer_cast<Variable>(exp)->GetVal());
-  }
-  switch (base->type_) {
-    case INT:
-      switch (exp->type_) {
-        case INT:
-          return ValueFunc<Long>(base, exp, pow);
-      }
-  }
-  return base;
-}
-// std::shared_ptr<radix::Value> radix::sqrt(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<radix::Value> radix::cbrt(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<radix::Value> radix::rootn(const std::shared_ptr<Value>& arg,
-//                                            const unsigned long int k);
-// std::shared_ptr<radix::Value> radix::hypot(const std::shared_ptr<Value>& x,
-//                                            const std::shared_ptr<Value>& y);
-//
+DIFUNC(pow)
+MONOFUNC(sqrt)
+MONOFUNC(cbrt)
+DIFUNC(rootn)
+DIFUNC(hypot)
 
 // Trigonometric Functions
 //
@@ -341,20 +345,18 @@ MONOFUNC(atanh)
 // Error and Gamma Functions
 //
 // ============================================================================
-// std::shared_ptr<radix::Value> radix::erf(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<radix::Value> radix::erfc(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<radix::Value> radix::tgamma(const std::shared_ptr<Value>&
-// arg); std::shared_ptr<radix::Value> radix::lgamma(const
-// std::shared_ptr<Value>& arg);
+MONOFUNC(erf)
+MONOFUNC(erfc)
+MONOFUNC(tgamma)
+MONOFUNC(lgamma)
+
+// Nearest Integer Floating Point Operations
 //
-// // Nearest Integer Floating Point Operations
-// //
 // ============================================================================
-// std::shared_ptr<radix::Value> radix::ceil(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<radix::Value> radix::floor(const std::shared_ptr<Value>&
-// arg); std::shared_ptr<radix::Value> radix::trunc(const
-// std::shared_ptr<Value>& arg); std::shared_ptr<radix::Value>
-// radix::round(const std::shared_ptr<Value>& arg);
+MONOFUNC(ceil)
+MONOFUNC(floor)
+MONOFUNC(trunc)
+MONOFUNC(round)
 
 std::shared_ptr<radix::ExpressionBase> radix::CopyValue(
     std::shared_ptr<ExpressionBase> exp) {
@@ -366,7 +368,8 @@ std::shared_ptr<radix::ExpressionBase> radix::CopyValue(
   }
   return NULL;
 }
-std::shared_ptr<radix::ExpressionBase> radix::CopyValue(const ExpressionBase* exp) {
+std::shared_ptr<radix::ExpressionBase> radix::CopyValue(
+    const ExpressionBase* exp) {
   const Value* val = dynamic_cast<const Value*>(exp);
   if (val->type_ == VARIABLE) {
     return Variable(*dynamic_cast<const Variable*>(val));

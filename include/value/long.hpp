@@ -152,6 +152,7 @@ Long pow(const Long& base, const Long& exp);
 Long sqrt(const Long& arg);
 Long cbrt(const Long& arg);
 Long rootn(const Long& arg, const unsigned long int k);
+Long rootn(const Long& arg, const Long& k);
 Long hypot(const Long& x, const Long& y);
 
 // Trigonometric Functions
