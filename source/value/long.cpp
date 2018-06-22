@@ -54,7 +54,6 @@ radix::Long::Long(long double val) : Value(INT) {
 }
 radix::Long::Long(std::string val) : Value(INT) {
   SetPrecision(val.size() * sizeof(char) * 8);
-  std::cout << val.size() << ":" << sizeof(char) << ":" << 8 << "<<\n";
   mpfr_set_str(value_, val.c_str(), 10, MPFR_RNDD);
 }
 radix::Long::Long(const char* val) : Value(INT) {
@@ -170,10 +169,10 @@ std::string radix::Long::GetString(int prec, bool left) const {
   return str;
 }
 
-std::string radix::Long::Unicode(bool recurse) const {
+std::string radix::Long::Unicode(bool ) const {
   return GetString();
 }
-std::string radix::Long::Latex(bool recurse) const {
+std::string radix::Long::Latex(bool ) const {
   return GetString();
 }
 
@@ -266,7 +265,7 @@ bool radix::operator<(const Long& lhs, const Long& rhs) {
 }
 bool radix::operator>(const Long& lhs, const Long& rhs) { return rhs < lhs; }
 bool radix::operator<=(const Long& lhs, const Long& rhs) {
-  return !(rhs < rhs);
+  return !(rhs < lhs);
 }
 bool radix::operator>=(const Long& lhs, const Long& rhs) {
   return !(lhs < rhs);
@@ -399,7 +398,13 @@ radix::Long radix::cbrt(const Long& arg) {
 radix::Long radix::rootn(const Long& arg, const unsigned long int k) {
   Long res;
   res.SetPrecision(arg.GetPrecision());
-  mpfr_root(res.value_, arg.value_, k, MPFR_RNDD);
+  mpfr_rootn_ui(res.value_, arg.value_, k, MPFR_RNDD);
+  return res;
+}
+radix::Long radix::rootn(const Long& arg, const Long& k) {
+  Long res;
+  res.SetPrecision(arg.GetPrecision());
+  mpfr_rootn_ui(res.value_, arg.value_, mpfr_get_ui(k.value_, MPFR_RNDD), MPFR_RNDD);
   return res;
 }
 radix::Long radix::hypot(const Long& x, const Long& y) {

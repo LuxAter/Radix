@@ -12,7 +12,7 @@ export DOC_DIR= docs
 export BASE_PATH=$(shell pwd)
 
 export COMPILER=clang++
-export CXXFLAGS= -MMD -std=c++2a -w -c
+export CXXFLAGS= -MMD -std=c++2a -c -Wall -Wextra -Wpedantic
 
 export LINK= -lmpfr -lgmp
 export INCLUDE= -I$(BASE_PATH)/$(EXTERNAL_DIR)/estl/estl

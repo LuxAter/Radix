@@ -9,20 +9,15 @@
 #include "function/operator.hpp"
 
 radix::FunctionBase::FunctionBase() : ExpressionBase(FUNCTION) {}
-radix::FunctionBase::FunctionBase(ExpressionType type)
-    : ExpressionBase(type){}
+radix::FunctionBase::FunctionBase(ExpressionType type) : ExpressionBase(type) {}
 radix::FunctionBase::~FunctionBase() {}
 
-std::shared_ptr<radix::ExpressionBase> radix::FunctionBase::eval(){
+std::shared_ptr<radix::ExpressionBase> radix::FunctionBase::eval() {
   return std::make_shared<ExpressionBase>(ExpressionBase());
 }
 
-std::string radix::FunctionBase::Unicode(bool recurse) const{
-  return std::string();
-}
-std::string radix::FunctionBase::Latex(bool recurse) const {
-  return std::string();
-}
+std::string radix::FunctionBase::Unicode(bool) const { return std::string(); }
+std::string radix::FunctionBase::Latex(bool) const { return std::string(); }
 
 std::ostream& radix::operator<<(std::ostream& out,
                                 const std::shared_ptr<FunctionBase>& lhs) {
@@ -31,10 +26,14 @@ std::ostream& radix::operator<<(std::ostream& out,
     return out;
   }
   switch (lhs->type_) {
-    case OPERATOR: {
+    case OPERATOR:
       out << *std::dynamic_pointer_cast<Operator>(lhs);
       break;
-    }
+    case FUNCTION:
+      out << *std::dynamic_pointer_cast<Function>(lhs);
+      break;
+    default:
+      break;
   };
   return out;
 }
@@ -50,7 +49,8 @@ std::shared_ptr<radix::ExpressionBase> radix::CopyFunction(
   return NULL;
 }
 
-std::shared_ptr<radix::ExpressionBase> radix::CopyFunction(const ExpressionBase* exp) {
+std::shared_ptr<radix::ExpressionBase> radix::CopyFunction(
+    const ExpressionBase* exp) {
   const FunctionBase* func = dynamic_cast<const FunctionBase*>(exp);
   if (func->type_ == OPERATOR) {
     return Operator(*dynamic_cast<const Operator*>(func));

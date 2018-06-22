@@ -75,59 +75,56 @@ bool operator<=(const std::shared_ptr<Value>& lhs,
 bool operator>=(const std::shared_ptr<Value>& lhs,
                 const std::shared_ptr<Value>& rhs);
 
-// // Basic Operators
-// //
+// Basic Operators
+//
 // ============================================================================
-// std::shared_ptr<Value> abs(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<Value> fabs(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<Value> max(const std::shared_ptr<Value>& x,
-//                            const std::shared_ptr<Value>& y);
-// std::shared_ptr<Value> min(const std::shared_ptr<Value>& x,
-//                            const std::shared_ptr<Value>& y);
+std::shared_ptr<Value> abs(const std::shared_ptr<Value>& arg);
+std::shared_ptr<Value> fabs(const std::shared_ptr<Value>& arg);
+std::shared_ptr<Value> max(const std::shared_ptr<Value>& x,
+                           const std::shared_ptr<Value>& y);
+std::shared_ptr<Value> min(const std::shared_ptr<Value>& x,
+                           const std::shared_ptr<Value>& y);
+
+// Exponential Functions
 //
-// // Exponential Functions
-// //
 // ============================================================================
-// std::shared_ptr<Value> exp(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<Value> exp2(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<Value> exp10(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<Value> expm1(const std::shared_ptr<Value>& arg);
+std::shared_ptr<Value> exp(const std::shared_ptr<Value>& arg);
+std::shared_ptr<Value> exp2(const std::shared_ptr<Value>& arg);
+std::shared_ptr<Value> exp10(const std::shared_ptr<Value>& arg);
+std::shared_ptr<Value> expm1(const std::shared_ptr<Value>& arg);
+
+std::shared_ptr<Value> log(const std::shared_ptr<Value>& arg);
+std::shared_ptr<Value> log2(const std::shared_ptr<Value>& arg);
+std::shared_ptr<Value> log10(const std::shared_ptr<Value>& arg);
+std::shared_ptr<Value> log1p(const std::shared_ptr<Value>& arg);
+
+// Power Functions
 //
-// std::shared_ptr<Value> log(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<Value> log2(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<Value> log10(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<Value> log1p(const std::shared_ptr<Value>& arg);
-//
-// // Power Functions
-// //
 // ============================================================================
 std::shared_ptr<Value> pow(const std::shared_ptr<Value>& base,
                            const std::shared_ptr<Value>& exp);
-// std::shared_ptr<Value> sqrt(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<Value> cbrt(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<Value> rootn(const std::shared_ptr<Value>& arg,
-//                              const unsigned long int k);
-// std::shared_ptr<Value> hypot(const std::shared_ptr<Value>& x,
-//                              const std::shared_ptr<Value>& y);
+std::shared_ptr<Value> sqrt(const std::shared_ptr<Value>& arg);
+std::shared_ptr<Value> cbrt(const std::shared_ptr<Value>& arg);
+std::shared_ptr<Value> rootn(const std::shared_ptr<Value>& arg,
+                             const std::shared_ptr<Value>& k);
+std::shared_ptr<Value> hypot(const std::shared_ptr<Value>& x,
+                             const std::shared_ptr<Value>& y);
+
+// Trigonometric Functions
 //
-// // Trigonometric Functions
-// //
 // ============================================================================
 std::shared_ptr<Value> sin(const std::shared_ptr<Value>& arg);
 std::shared_ptr<Value> cos(const std::shared_ptr<Value>& arg);
 std::shared_ptr<Value> tan(const std::shared_ptr<Value>& arg);
-//
+
 std::shared_ptr<Value> sec(const std::shared_ptr<Value>& arg);
 std::shared_ptr<Value> csc(const std::shared_ptr<Value>& arg);
 std::shared_ptr<Value> cot(const std::shared_ptr<Value>& arg);
-//
+
 std::shared_ptr<Value> acos(const std::shared_ptr<Value>& arg);
 std::shared_ptr<Value> asin(const std::shared_ptr<Value>& arg);
 std::shared_ptr<Value> atan(const std::shared_ptr<Value>& arg);
-//
-// std::shared_ptr<Value> atan2(const std::shared_ptr<Value>& y,
-//                              const std::shared_ptr<Value>& x);
-//
+
 // Hyperbolic Functions
 //
 // ============================================================================
@@ -142,23 +139,23 @@ std::shared_ptr<Value> coth(const std::shared_ptr<Value>& arg);
 std::shared_ptr<Value> acosh(const std::shared_ptr<Value>& arg);
 std::shared_ptr<Value> asinh(const std::shared_ptr<Value>& arg);
 std::shared_ptr<Value> atanh(const std::shared_ptr<Value>& arg);
+
+// Error and Gamma Functions
 //
-// // Error and Gamma Functions
-// //
 // ============================================================================
-// std::shared_ptr<Value> erf(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<Value> erfc(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<Value> tgamma(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<Value> lgamma(const std::shared_ptr<Value>& arg);
+std::shared_ptr<Value> erf(const std::shared_ptr<Value>& arg);
+std::shared_ptr<Value> erfc(const std::shared_ptr<Value>& arg);
+std::shared_ptr<Value> tgamma(const std::shared_ptr<Value>& arg);
+std::shared_ptr<Value> lgamma(const std::shared_ptr<Value>& arg);
+
+// Nearest Integer Floating Point Operations
 //
-// // Nearest Integer Floating Point Operations
-// //
 // ============================================================================
-// std::shared_ptr<Value> ceil(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<Value> floor(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<Value> trunc(const std::shared_ptr<Value>& arg);
-// std::shared_ptr<Value> round(const std::shared_ptr<Value>& arg);
-//
+std::shared_ptr<Value> ceil(const std::shared_ptr<Value>& arg);
+std::shared_ptr<Value> floor(const std::shared_ptr<Value>& arg);
+std::shared_ptr<Value> trunc(const std::shared_ptr<Value>& arg);
+std::shared_ptr<Value> round(const std::shared_ptr<Value>& arg);
+
 std::shared_ptr<ExpressionBase> CopyValue(std::shared_ptr<ExpressionBase> exp);
 std::shared_ptr<ExpressionBase> CopyValue(const ExpressionBase* exp);
 }  // namespace radix

@@ -3,42 +3,64 @@
 
 #include <memory>
 #include <ostream>
+#include <map>
+#include <string>
 
 #include "function_base.hpp"
+#include "../utility.hpp"
 
 namespace radix {
+enum FunctionNames {
+  ABS,
+  MAX,
+  MIN,
+  EXP,
+  EXP2,
+  EXP10,
+  LOG,
+  LOG2,
+  LOG10,
+  POW,
+  SQRT,
+  CBRT,
+  ROOT,
+  HYPOT,
+  COS,
+  SIN,
+  TAN,
+  SEC,
+  CSC,
+  COT,
+  ACOS,
+  ASIN,
+  ATAN,
+  ACSC,
+  ASEC,
+  ACOT,
+  SINH,
+  COSH,
+  TANH,
+  COTH,
+  SECH,
+  CSCH,
+  ASINH,
+  ACOSH,
+  ATANH,
+  ACOTH,
+  ACSCH,
+  ASECH,
+  ERF,
+  ERFC,
+  TGAMMA,
+  LGAMMA,
+  CEIL,
+  FLOOR,
+  TRUNC,
+  ROUND
+};
+extern std::map<FunctionNames, quad<std::string, std::size_t, std::string, std::string>> fmap;
 class Function : public FunctionBase {
  public:
-  enum FunctionNames {
-    NONE = 0,
-    LOG_2 = 1,
-    LOG = 2,
-    LOG_10 = 3,
-    SIN = 4,
-    COS = 5,
-    TAN = 6,
-    CSC = 7,
-    SEC = 8,
-    COT = 9,
-    ASIN = 10,
-    ACOS = 11,
-    ATAN = 12,
-    ACSC = 13,
-    ASEC = 14,
-    ACOT = 15,
-    SINH = 16,
-    COSH = 17,
-    TANH = 18,
-    COTH = 19,
-    SECH = 20,
-    CSCH = 21,
-    ASINH = 22,
-    ACOSH = 23,
-    ATANH = 24,
-    ACOTH = 25,
-    ACSCH = 26,
-    ASECH = 27
-  };
   Function();
   Function(FunctionNames func);
   Function(std::string func);
@@ -47,6 +69,8 @@ class Function : public FunctionBase {
 
   virtual std::shared_ptr<ExpressionBase> Eval(
       std::shared_ptr<ExpressionBase> a);
+  virtual std::shared_ptr<ExpressionBase> Eval(
+      std::shared_ptr<ExpressionBase> a, std::shared_ptr<ExpressionBase> b);
 
   virtual std::string Unicode(bool recurse = true) const;
   virtual std::string Latex(bool recurse = true) const;

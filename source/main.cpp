@@ -24,6 +24,8 @@ int main(int argc, char const* argv[]) {
   Expression x = lex.Parse(expression);
   Expression ret = Eval(ex, {{"x", x}});
   std::cout << PrintAST(ex) << "\n";
+  std::cout << Latex(ex) << "\n";
   std::cout << Unicode(ret) << "\n";
+  std::cout << PrintAST(ret) << "\n";
   return 0;
 }

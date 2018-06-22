@@ -17,7 +17,6 @@
 #include "value/long.hpp"
 #include "value/variable.hpp"
 
-using namespace estl::logger;
 
 radix::Lexer::Lexer() {}
 radix::Lexer::~Lexer() {}
@@ -65,7 +64,7 @@ estl::tree::Tree<std::shared_ptr<radix::ExpressionBase>> radix::Lexer::Parse(
     }
     token_queue.pop();
   }
-  // std::cout << string_stack.top() << "\n<<\n";
+  // std::cout << string_stack.top() << "<<\n";
   return tree_stack.top();
 }
 
@@ -178,10 +177,10 @@ std::pair<std::string, radix::Lexer::TokenType> radix::Lexer::GetNextToken() {
         break;
       } else if (IsMatch(std::string(1, current))) {
         break;
+      } else if (current == ',') {
+        break;
       } else if (is_num && !IsDigit(current)) {
         expression_.insert(expression_.begin() + pos_ + local, '&');
-        break;
-      } else if (current == ',') {
         break;
       }
     }
@@ -222,38 +221,9 @@ void radix::Lexer::LoadOperators() {
 }
 
 void radix::Lexer::LoadFunctions() {
-  functions_["log2"] = {-1, 1};
-  functions_["log"] = {-1, 1};
-  functions_["log10"] = {-1, 1};
-
-  functions_["sin"] = {-1, 1};
-  functions_["cos"] = {-1, 1};
-  functions_["tan"] = {-1, 1};
-  functions_["csc"] = {-1, 1};
-  functions_["sec"] = {-1, 1};
-  functions_["cot"] = {-1, 1};
-  functions_["asin"] = {-1, 1};
-  functions_["acos"] = {-1, 1};
-  functions_["atan"] = {-1, 1};
-  functions_["acsc"] = {-1, 1};
-  functions_["asec"] = {-1, 1};
-  functions_["acot"] = {-1, 1};
-  functions_["sinh"] = {-1, 1};
-  functions_["cosh"] = {-1, 1};
-  functions_["tanh"] = {-1, 1};
-  functions_["csch"] = {-1, 1};
-  functions_["sech"] = {-1, 1};
-  functions_["coth"] = {-1, 1};
-  functions_["asinh"] = {-1, 1};
-  functions_["acosh"] = {-1, 1};
-  functions_["atanh"] = {-1, 1};
-  functions_["acsch"] = {-1, 1};
-  functions_["asech"] = {-1, 1};
-  functions_["acoth"] = {-1, 1};
-
-  functions_["pow"] = {-1, 2};
-  functions_["max"] = {-1, 2};
-  functions_["min"] = {-1, 2};
+  for(auto it : fmap){
+    functions_[it.second.first] = {-1, static_cast<int>(it.second.second)};
+  }
 }
 
 void radix::Lexer::AddOperator(std::string op, int prec, int nargs){

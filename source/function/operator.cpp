@@ -69,9 +69,9 @@ std::shared_ptr<radix::ExpressionBase> radix::Operator::Eval(
       return (lhs % rhs);
     case POW:
       return pow(lhs, rhs);
+    default:
+      return nullptr;
   }
-
-  return nullptr;
 }
 
 std::string radix::Operator::Unicode(bool recurse) const {
@@ -100,6 +100,8 @@ std::string radix::Operator::Unicode(bool recurse) const {
       return args.at(0) + "^" + args.at(1);
     case FAC:
       return args.at(0) + "!";
+    default:
+      return "";
   }
 }
 std::string radix::Operator::Latex(bool recurse) const {
@@ -128,6 +130,8 @@ std::string radix::Operator::Latex(bool recurse) const {
       return "{" + args.at(0) + "}^{" + args.at(1) + "}";
     case FAC:
       return args.at(0) + "!";
+    default:
+      return "";
   }
   return std::string();
 }
