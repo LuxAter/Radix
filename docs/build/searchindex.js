@@ -1,1 +1,0 @@
-Search.setIndex({docnames:["index"],envversion:52,filenames:["index.rst"],objects:{},objnames:{},objtypes:{},terms:{librari:0,math:0},titles:["radix Documentation"],titleterms:{document:0,radix:0}})
