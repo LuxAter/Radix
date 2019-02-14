@@ -18,6 +18,10 @@ namespace script {
 
     ~Script();
 
+    /* TODO: Remove these SFINAE templates, the only difference is in the
+     * lua_get command, so I should just template the hell out of that, and then
+     * just a generic get. I think this will be better. <14-02-19, Arden
+     * Rasmussen> */
     template <typename _T>
     typename std::enable_if<sfinae::is_vector<_T>::value, _T>::type get(
         const std::string& var) {
@@ -27,7 +31,7 @@ namespace script {
       _T result;
       int level;
       if ((level = lua_get_to_stack(var)) != -1) {
-        result = lua_get_vector<typename _T::value_type>(var);
+        result = lua_get_vector<typename _T::value_type>();
         lua_pop(state_, level + 1);
       } else {
         result = _T();
@@ -44,8 +48,7 @@ namespace script {
       _T result;
       int level;
       if ((level = lua_get_to_stack(var)) != -1) {
-        result =
-            lua_get_map<typename _T::key_type, typename _T::mapped_type>(var);
+        result = lua_get_map<typename _T::key_type, typename _T::mapped_type>();
         lua_pop(state_, level + 1);
       } else {
         result = _T();
@@ -54,8 +57,27 @@ namespace script {
     }
 
     template <typename _T>
-    typename std::enable_if<
-        !sfinae::is_vector<_T>::value && !sfinae::is_map<_T>::value, _T>::type
+    typename std::enable_if<sfinae::is_array<_T>::value, _T>::type get(
+        const std::string& var) {
+      if (!state_) {
+        return _T();
+      }
+      _T result;
+      int level;
+      if ((level = lua_get_to_stack(var)) != -1) {
+        result = lua_get_array<_T>();
+        lua_pop(state_, level + 1);
+      } else {
+        result = _T();
+      }
+      return result;
+    }
+
+    template <typename _T>
+    typename std::enable_if<!sfinae::is_vector<_T>::value &&
+                                !sfinae::is_map<_T>::value &&
+                                !sfinae::is_array<_T>::value,
+                            _T>::type
     get(const std::string& var) {
       if (!state_) {
         return _T();
@@ -219,6 +241,23 @@ namespace script {
       int n = lua_gettop(state_);
       lua_pop(state_, n);
       return vec;
+    }
+    template <typename _T>
+    _T lua_get_array() {
+      _T arr;
+      if (lua_isnil(state_, -1)) {
+        return arr;
+      }
+      lua_pushnil(state_);
+      std::size_t i = 0;
+      while (lua_next(state_, -2) && i < arr.max_size()) {
+        arr[i] = lua_get<typename _T::value_type>();
+        i++;
+        lua_pop(state_, 1);
+      }
+      int n = lua_gettop(state_);
+      lua_pop(state_, n);
+      return arr;
     }
 
     template <typename _T, typename _U>

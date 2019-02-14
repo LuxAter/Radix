@@ -1,3 +1,5 @@
+arr = {2,4,6,8,10,1,3,5,7,9}
+
 function func(vec)
   for k, v in pairs(vec) do print(k,v) end
   return 0.0
