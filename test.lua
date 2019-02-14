@@ -1,18 +1,17 @@
-pi=3.1415
-evens={2,4,6,8,10}
-days={"monday", 'tuesday', "wednesday", "thursday", "friday"}
-
-function year()
-  return 2019
-end
-function years()
-  return "2018-2019"
+function func(vec)
+  for k, v in pairs(vec) do print(k,v) end
+  return 0.0
 end
 
-function param(arg)
-  return arg * 2
+function plot(a, b)
+  t = {}
+  for i=a,b,0.01 do
+    table.insert(t, math.sin(i))
+  end
+  return t
 end
 
-function func(x, y, t)
-  return tostring(math.sin(x) + math.cos(y))
+function age()
+  t = {arden=20,sean=20,anna=21,amber=22}
+  return t
 end

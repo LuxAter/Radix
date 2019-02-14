@@ -2,7 +2,7 @@
 #define RADIX_HPP_
 
 #define RADIX_VERSION_MAJOR 0
-#define RADIX_VERSION_MINOR 0
+#define RADIX_VERSION_MINOR 1
 
 #include "log.hpp"
 #include "script/script_class.hpp"
