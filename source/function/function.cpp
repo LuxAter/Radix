@@ -18,7 +18,7 @@
 namespace radix {
 std::map<FunctionNames,
                 quad<std::string, std::size_t, std::string, std::string>>
-    fmap{{ABS, {"abs", 1, "|$0|", "\\lvert$0\\rvert"}},
+    fmap{{ABS, {"abs", 1, "|$0|", "\\lvert $0\\rvert"}},
          {MAX, {"max", 2, "max($0,$1)", "\\text{max}\\left($0,$1\\right)"}},
          {MIN, {"min", 2, "min($0,$1)", "\\text{min}\\left($0,$1\\right)"}},
          {EXP, {"exp", 1, "e^($0)", "e^{$0}"}},
