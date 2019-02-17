@@ -1,8 +1,11 @@
 num = 3.1415
-str = "Hello, World!"
-vec = {1,3,5,7,9}
 
-function func(float, str, int)
-  print(str)
-  return float + int
+function func(val)
+  tmp = num
+  num = val
+  return tmp
+end
+
+function year()
+  return 2019
 end

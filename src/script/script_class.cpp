@@ -4,11 +4,22 @@
 radix::script::Script::Script(const std::string& file_name) {
   state_ = luaL_newstate();
   luaL_openlibs(state_);
-  if (luaL_loadfile(state_, file_name.c_str()) || lua_pcall(state_, 0, 0, 0)) {
-    log::Error("Failed to load Lua file \"%s\"", file_name.c_str());
-    state_ = nullptr;
+  if (!file_name.compare(0, 4, "%lua")) {
+    std::string script = file_name;
+    script.erase(0, script.find('\n') + 1);
+    if (luaL_loadstring(state_, script.c_str()) || lua_pcall(state_, 0, 0, 0)) {
+      log::Error("Failed to read user entered lua script");
+      state_ = nullptr;
+    }
+    file_name_ = "User Script";
+  } else {
+    if (luaL_loadfile(state_, file_name.c_str()) ||
+        lua_pcall(state_, 0, 0, 0)) {
+      log::Error("Failed to load Lua file \"%s\"", file_name.c_str());
+      state_ = nullptr;
+    }
+    file_name_ = file_name;
   }
-  file_name_ = file_name;
 }
 
 radix::script::Script::~Script() {
