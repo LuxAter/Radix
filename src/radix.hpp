@@ -6,6 +6,7 @@
 
 #include "log.hpp"
 #include "script/script_class.hpp"
+#include "plot/plot_class.hpp"
 
 namespace radix {
   void version(unsigned& major, unsigned& minor);

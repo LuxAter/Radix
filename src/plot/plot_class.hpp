@@ -25,6 +25,11 @@ namespace plot {
                 double v_max = std::numeric_limits<double>::infinity(),
                 std::string style = "");
 
+    bool png(const std::string& file_name, const unsigned img_width,
+             const unsigned img_height);
+    bool bmp(const std::string& file_name, const unsigned img_width,
+             const unsigned img_height);
+
     std::string title;
     std::string xlabel, ylabel;
     std::array<double, 2> xlim, ylim;
@@ -34,6 +39,22 @@ namespace plot {
     bool grid_ = false;
 
    private:
+    struct PlotVector {
+      std::vector<double> x_data;
+      std::vector<double> y_data;
+      std::string style;
+    };
+    struct PlotArray {
+      std::vector<std::vector<double>> data;
+      double v_min, v_max;
+      double rx_min, rx_max, ry_min, ry_max;
+      std::string style;
+    };
+    void generate_byte_map(uint32_t** bytes, const unsigned img_width,
+                           const unsigned img_height);
+
+    std::vector<PlotVector> plot_vector_;
+    std::vector<PlotArray> plot_array_;
   };
 }  // namespace plot
 }  // namespace radix
