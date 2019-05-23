@@ -92,4 +92,6 @@ _deps
 # External projects
 *-prefix/
 
+build/
+
 # End of https://www.gitignore.io/api/c,cmake,c++
