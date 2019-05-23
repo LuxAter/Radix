@@ -42,6 +42,9 @@ char radix::lex_peek() {
     return buff[pos + 1];
   }
 }
+char radix::lex_current() {
+  return current_char;
+}
 void radix::lex_skip_whitespace() {
   while (current_char != 0 &&
          (current_char == ' ' || current_char == '\t' || current_char == '\n'))
@@ -128,6 +131,10 @@ radix::Token radix::get_next_token() {
       return tok;
     } else if (current_char == ',') {
       Token tok{COMMA, ",", 0.0};
+      lex_advance();
+      return tok;
+    } else if (current_char == '=') {
+      Token tok{EQUAL, "=", 0.0};
       lex_advance();
       return tok;
     } else if ((current_char >= 65 && current_char <= 90) ||

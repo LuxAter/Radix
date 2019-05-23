@@ -10,8 +10,10 @@
 #include <vector>
 
 static radix::Token current_token;
-static std::map<std::string, double> consts = {
-    {"pi", M_PI}, {"inf", INFINITY}, {"nan", NAN}};
+static std::map<std::string, double> consts = {{"pi", M_PI},
+                                               {"e", 2.71828182845904523536},
+                                               {"inf", INFINITY},
+                                               {"nan", NAN}};
 static std::vector<std::string> special_funcs = {"sum", "int", "deriv"};
 static std::map<std::string, short> func_nargs = {{"abs", 1},
                                                   {"mod", 2},
@@ -94,20 +96,26 @@ void radix::parse_eat(const TokenType& type) {
   }
 }
 
-radix::Token radix::parse_current(){
-  return current_token;
-}
-double& radix::parse_global(const std::string& key){
-  return global_[key];
-}
+radix::Token radix::parse_current() { return current_token; }
+double& radix::parse_global(const std::string& key) { return global_[key]; }
 
-void radix::parse_restore(LexState state){
+void radix::parse_restore(LexState state) {
   lex_restore_state(state);
   current_token = get_next_token();
 }
 
-double radix::expression() {
-  return additive_expression();
+double radix::expression() { return assignment_expression(); }
+double radix::assignment_expression() {
+  if (current_token.type == ID && lex_current() == '=') {
+    Token var = current_token;
+    parse_eat(ID);
+    parse_eat(EQUAL);
+    double result = additive_expression();
+    global_[var.str_val] = result;
+    return result;
+  } else {
+    return additive_expression();
+  }
 }
 double radix::additive_expression() {
   double result = multiplicative_expression();
@@ -378,6 +386,73 @@ double radix::eval_special_func(std::string func) {
       current_token = get_next_token();
       result += expression();
     }
+    lex_restore_state(done_state);
+    current_token = get_next_token();
+    return result;
+  } else if (func == "int") {
+    double a = 0;
+    double b = 0;
+    double h = 0;
+    parse_eat(LPAREN);
+    Token var = current_token;
+    global_[var.str_val] = 0.0;
+    parse_eat(ID);
+    LexState state = lex_get_state();
+    parse_eat(COMMA);
+    expression();
+    parse_eat(COMMA);
+    a = expression();
+    parse_eat(COMMA);
+    b = expression();
+    h = (b - a) / 100.0;
+    LexState done_state = lex_get_state();
+    double result = 0.0;
+    global_[var.str_val] = a;
+    parse_restore(state);
+    result += expression();
+    global_[var.str_val] = b;
+    parse_restore(state);
+    result += expression();
+    double tmp = 0.0;
+    for (int k = 1; k < 100; k += 2) {
+      global_[var.str_val] = a + (k * h);
+      parse_restore(state);
+      tmp += expression();
+    }
+    result += (4.0 * tmp);
+    tmp = 0.0;
+    for (int k = 2; k < 99; k += 2) {
+      global_[var.str_val] = a + (k * h);
+      parse_restore(state);
+      tmp += expression();
+    }
+    result += (2.0 * tmp);
+    result *= (h / 3.0);
+    lex_restore_state(done_state);
+    current_token = get_next_token();
+    return result;
+  } else if (func == "deriv") {
+    double x = 0;
+    double h = 0.001;
+    parse_eat(LPAREN);
+    Token var = current_token;
+    global_[var.str_val] = 0.0;
+    parse_eat(ID);
+    LexState state = lex_get_state();
+    parse_eat(COMMA);
+    expression();
+    parse_eat(COMMA);
+    x = expression();
+    LexState done_state = lex_get_state();
+    double result = 0.0;
+    double weights[7] = {-1.0 / 60.0, 3.0 / 20.0,  -3.0 / 4.0, 0.0,
+                         3.0 / 4.0,   -3.0 / 20.0, 1.0 / 60.0};
+    for (short i = 0; i < 7; ++i) {
+      global_[var.str_val] = x + ((i - 3) * h);
+      parse_restore(state);
+      result += weights[i] * expression();
+    }
+    result /= h;
     lex_restore_state(done_state);
     current_token = get_next_token();
     return result;

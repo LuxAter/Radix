@@ -10,11 +10,6 @@
 
 #include <iostream>
 
-// static std::map<uint8_t, std::string> brail = {{0x00, "\u2800"},
-//                                                {0x80, "\u2801"},
-//                                                {0x40, "\u2802"},
-//                                                {0x}}
-
 double radix::eval(std::string str) {
   lex_init(str.c_str());
   parse_init();
@@ -54,13 +49,13 @@ void radix::plot_func() {
        parse_global(var.str_val) += step) {
     parse_restore(state);
     data.push_back(expression());
-    // std::cout << data.back() << "!!\n";
     min_v = std::min(data.back(), min_v);
     max_v = std::max(data.back(), max_v);
   }
-  // std::cout << min_v << ":" << max_v << "\n";
+  double diff = (max_v - min_v) * 0.01;
+  max_v += diff;
+  min_v -= diff;
   double ystep = (max_v - min_v) / 80;
-  // std::cout << ystep << "!!\n";
   for (unsigned y = 0; y < 80; y += 4) {
     for (unsigned x = 0; x < 80; x += 2) {
       std::cout << get_ch(x, y, data, max_v, ystep);
@@ -72,8 +67,6 @@ void radix::plot_func() {
 std::string radix::get_ch(unsigned x, unsigned y, std::vector<double> data,
                           double max_v, double step) {
   uint16_t bits = 0;
-  // std::cout << data[x] << ":" << max_v - (step * y) << ":"
-  //           << max_v - (step * (y + 4)) << "\n";
   if (max_v - (step * y) >= data[x] && data[x] >= max_v - (step * (y + 1))) {
     bits |= 0x01;
   }
@@ -125,24 +118,3 @@ std::string radix::get_ch(unsigned x, unsigned y, std::vector<double> data,
   }
   return out;
 }
-
-// std::string tui::Buffer::GetChar(unsigned int ch) {
-//   std::string out;
-//
-//   if (ch <= 0x7f) {
-//     out.append(1, static_cast<char>(ch));
-//   } else if (ch <= 0x7ff) {
-//     out.append(1, static_cast<char>(0xc0 | ((ch >> 6) & 0x1f)));
-//     out.append(1, static_cast<char>(0x80 | (ch & 0x3f)));
-//   } else if (ch <= 0xffff) {
-//     out.append(1, static_cast<char>(0xe0 | ((ch >> 12) & 0x0f)));
-//     out.append(1, static_cast<char>(0x80 | ((ch >> 6) & 0x3f)));
-//     out.append(1, static_cast<char>(0x80 | (ch & 0x3f)));
-//   } else {
-//     out.append(1, static_cast<char>(0xf0 | ((ch >> 18) & 0x07)));
-//     out.append(1, static_cast<char>(0x80 | ((ch >> 12) & 0x3f)));
-//     out.append(1, static_cast<char>(0x80 | ((ch >> 6) & 0x3f)));
-//     out.append(1, static_cast<char>(0x80 | (ch & 0x3f)));
-//   }
-//   return out;
-// }

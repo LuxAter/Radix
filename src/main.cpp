@@ -37,7 +37,7 @@ std::string input() {
         if (pos == 0) {
           result.pop_back();
           std::cout << "\033[D \033[D" << std::flush;
-        } else {
+        } else if (pos < result.size()) {
           result.erase(result.size() - pos - 1, 1);
           std::cout << "\033[D" << result.substr(result.size() - pos) << ' ';
           for (int i = 0; i < pos + 1; ++i) {
@@ -67,7 +67,7 @@ std::string input() {
         } else if (ch == 67 && pos > 0) {
           std::cout << "\033[C" << std::flush;
           pos--;
-        } else if (ch == 68 && (pos < result.size() ||
+        } else if (ch == 68 && ((id == 0 && pos < result.size()) ||
                                 (id != 0 && pos < scrollback[id].size()))) {
           pos++;
           std::cout << "\033[D" << std::flush;

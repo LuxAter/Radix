@@ -4,7 +4,7 @@
 
 namespace radix {
   enum TokenType{
-    REAL, ADDITIVE, MULTIPLICATIVE, POW, FAC, LPAREN, RPAREN, ID, COMMA, EOS
+    REAL, ADDITIVE, MULTIPLICATIVE, POW, FAC, LPAREN, RPAREN, ID, COMMA, EQUAL, EOS
   };
   struct Token{
     TokenType type;
@@ -21,6 +21,7 @@ namespace radix {
   void lex_error();
   void lex_advance();
   char lex_peek();
+  char lex_current();
   void lex_skip_whitespace();
   void lex_skip_comment();
   double lex_number();
