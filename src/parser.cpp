@@ -4,12 +4,15 @@
 
 #include "lexer.hpp"
 
+#include <algorithm>
 #include <iostream>
 #include <map>
+#include <vector>
 
 static radix::Token current_token;
 static std::map<std::string, double> consts = {
     {"pi", M_PI}, {"inf", INFINITY}, {"nan", NAN}};
+static std::vector<std::string> special_funcs = {"sum", "int", "deriv"};
 static std::map<std::string, short> func_nargs = {{"abs", 1},
                                                   {"mod", 2},
                                                   {"remainder", 2},
@@ -73,6 +76,7 @@ static std::map<std::string, short> func_nargs = {{"abs", 1},
                                                   {"sph_bessel", 2},
                                                   {"sph_legendre", 3},
                                                   {"sph_neumann", 2}};
+std::map<std::string, double> global_;
 
 void radix::parse_init() { current_token = get_next_token(); }
 
@@ -90,7 +94,21 @@ void radix::parse_eat(const TokenType& type) {
   }
 }
 
-double radix::expression() { return additive_expression(); }
+radix::Token radix::parse_current(){
+  return current_token;
+}
+double& radix::parse_global(const std::string& key){
+  return global_[key];
+}
+
+void radix::parse_restore(LexState state){
+  lex_restore_state(state);
+  current_token = get_next_token();
+}
+
+double radix::expression() {
+  return additive_expression();
+}
 double radix::additive_expression() {
   double result = multiplicative_expression();
   if (current_token.type == ADDITIVE) {
@@ -121,12 +139,24 @@ double radix::multiplicative_expression() {
   return result;
 }
 double radix::exponential_expression() {
-  double result = postfix_expression();
+  double result = unary_expression();
   if (current_token.type == POW) {
     parse_eat(POW);
     result = std::pow(result, exponential_expression());
   }
   return result;
+}
+double radix::unary_expression() {
+  if (current_token.type == ADDITIVE) {
+    if (current_token.str_val == "-") {
+      parse_eat(ADDITIVE);
+      return -1.0 * unary_expression();
+    } else {
+      parse_eat(ADDITIVE);
+      return postfix_expression();
+    }
+  }
+  return postfix_expression();
 }
 double radix::postfix_expression() {
   double result = primary_expression();
@@ -162,9 +192,18 @@ double radix::primary_expression() {
       double vars[5];
       for (short i = 0; i < func_nargs[token.str_val]; ++i) {
         vars[i] = expression();
+        if (i < func_nargs[token.str_val] - 1) {
+          parse_eat(COMMA);
+        }
       }
       parse_eat(RPAREN);
       return eval_func(token.str_val, vars);
+    } else if (std::find(special_funcs.begin(), special_funcs.end(),
+                         token.str_val) != special_funcs.end()) {
+      double result = eval_special_func(token.str_val);
+      return result;
+    } else if (global_.find(token.str_val) != global_.end()) {
+      return global_[token.str_val];
     } else {
       parse_error(REAL, token.type);
     }
@@ -303,4 +342,46 @@ double radix::eval_func(std::string func, double vars[5]) {
     return std::sph_neumann(vars[0], vars[1]);
   else
     return 0.0;
+}
+
+double radix::eval_special_func(std::string func) {
+  if (func == "sum") {
+    double start = 0;
+    double stop = 0;
+    double step = 1;
+    parse_eat(LPAREN);
+    Token var = current_token;
+    global_[var.str_val] = 0.0;
+    parse_eat(ID);
+    LexState state = lex_get_state();
+    parse_eat(COMMA);
+    expression();
+    if (current_token.type == COMMA) {
+      parse_eat(COMMA);
+      start = expression();
+    }
+    if (current_token.type == COMMA) {
+      parse_eat(COMMA);
+      stop = expression();
+    }
+    if (current_token.type == COMMA) {
+      parse_eat(COMMA);
+      step = stop;
+      stop = expression();
+    }
+    LexState done_state = lex_get_state();
+    parse_eat(RPAREN);
+    double result = 0.0;
+    for (global_[var.str_val] = start; global_[var.str_val] <= stop;
+         global_[var.str_val] += step) {
+      lex_restore_state(state);
+      current_token = get_next_token();
+      result += expression();
+    }
+    lex_restore_state(done_state);
+    current_token = get_next_token();
+    return result;
+  } else {
+    return 0.0;
+  }
 }

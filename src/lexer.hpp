@@ -4,12 +4,17 @@
 
 namespace radix {
   enum TokenType{
-    REAL, ADDITIVE, MULTIPLICATIVE, POW, FAC, LPAREN, RPAREN, ID, EOS
+    REAL, ADDITIVE, MULTIPLICATIVE, POW, FAC, LPAREN, RPAREN, ID, COMMA, EOS
   };
   struct Token{
     TokenType type;
     std::string str_val;
     double val;
+  };
+  struct LexState{
+    char current_char;
+    size_t line, col, pos;
+    Token current_token;
   };
 
   void lex_init(const char* text);
@@ -23,5 +28,7 @@ namespace radix {
   Token get_next_token();
   size_t lex_line();
   size_t lex_col();
+  LexState lex_get_state();
+  void lex_restore_state(LexState state);
 } // namespace radix
 #endif  // RADIX_LEXER_HPP_

@@ -47,7 +47,7 @@ std::string input() {
         }
       }
     } else if (ch == 27) {
-      if (bytes == 0) return "exit";
+      if (bytes == 0) continue;
       ch = std::cin.get();
       if (ch == 91 && bytes > 1) {
         ch = std::cin.get();
@@ -73,7 +73,6 @@ std::string input() {
           std::cout << "\033[D" << std::flush;
         }
       }
-      return "exit";
     } else {
       if (id != 0) {
         result = scrollback[id];

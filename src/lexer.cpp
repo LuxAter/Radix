@@ -126,6 +126,10 @@ radix::Token radix::get_next_token() {
       Token tok{RPAREN, ")", 0.0};
       lex_advance();
       return tok;
+    } else if (current_char == ',') {
+      Token tok{COMMA, ",", 0.0};
+      lex_advance();
+      return tok;
     } else if ((current_char >= 65 && current_char <= 90) ||
                (current_char >= 97 && current_char <= 122) ||
                (current_char == 95)) {
@@ -138,3 +142,14 @@ radix::Token radix::get_next_token() {
 
 size_t radix::lex_line() { return line; }
 size_t radix::lex_col() { return col; }
+
+radix::LexState radix::lex_get_state() {
+  return LexState{current_char, line, col, pos, current_token};
+}
+void radix::lex_restore_state(LexState state) {
+  current_char = state.current_char;
+  line = state.line;
+  col = state.col;
+  pos = state.pos;
+  current_token = state.current_token;
+}
