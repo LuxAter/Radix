@@ -25,6 +25,7 @@ void radix::plot_func() {
   double start = 0;
   double stop = 0;
   double step = 1;
+  int size = 80;
   parse_eat(LPAREN);
   Token var = parse_current();
   parse_global(var.str_val) = 0.0;
@@ -40,7 +41,11 @@ void radix::plot_func() {
     parse_eat(COMMA);
     stop = expression();
   }
-  step = (stop - start) / 80;
+  if (parse_current().type == COMMA) {
+    parse_eat(COMMA);
+    size = expression();
+  }
+  step = (stop - start) / size;
   parse_eat(RPAREN);
   std::vector<double> data;
   double min_v = INFINITY;
@@ -55,9 +60,9 @@ void radix::plot_func() {
   double diff = (max_v - min_v) * 0.01;
   max_v += diff;
   min_v -= diff;
-  double ystep = (max_v - min_v) / 80;
-  for (unsigned y = 0; y < 80; y += 4) {
-    for (unsigned x = 0; x < 80; x += 2) {
+  double ystep = (max_v - min_v) / size;
+  for (unsigned y = 0; y < size; y += 4) {
+    for (unsigned x = 0; x < size; x += 2) {
       std::cout << get_ch(x, y, data, max_v, ystep);
     }
     printf("\n");

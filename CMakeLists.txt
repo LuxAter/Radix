@@ -18,6 +18,8 @@ ADD_LIBRARY(radix ${SRC_FILES})
 ADD_EXECUTABLE(radix.exe "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp")
 TARGET_LINK_LIBRARIES(radix.exe radix)
 
+INSTALL(TARGETS radix.exe)
+
 IF (EXISTS "${CMAKE_CURRENT_BINARY_DIR}/compile_commands.json")
   EXECUTE_PROCESS(COMMAND ${CMAKE_COMMAND} -E copy_if_different
     ${CMAKE_CURRENT_BINARY_DIR}/compile_commands.json
